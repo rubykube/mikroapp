@@ -1,40 +1,117 @@
-import React, {Component} from 'react'
-import Grid from '@material-ui/core/Grid'
-import TextField from '@material-ui/core/TextField'
-import Account from '../components/Account'
+import React from 'react';
+import PropTypes from 'prop-types';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider';
 
-class AccountList extends Component {
+import withStyles from '@material-ui/core/styles/withStyles';
 
-  state = {
-    accounts: []
-  }
+const styles = theme => ({
+    main: {
+        width: 'auto',
+        display: 'block', // Fix IE 11 issue.
+        marginLeft: theme.spacing.unit * 3,
+        marginRight: theme.spacing.unit * 3,
+        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+            width: 400,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+        },
+    },
+    card: {
+        maxWidth: 400,
+        marginTop: theme.spacing.unit * 2,
+        display: 'flex',
+        flexDirection: 'column',
+        /* alignItems: 'center', */
+        /* padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`, */
+    },
+    actions: {
+        display: 'flex',
+        justifyContent: 'center',
+    }
+});
 
-  constructor() {
-    super()
-    this.getAccounts()
-  }
+class AccountList extends React.Component {
+    state = { accounts: [] }
 
-  getAccounts = () => {
-    this.state.accounts = [{currency: 'EUR'}, {currency: 'USD'}]
-  }
+    fetchAccounts () {
+        return fetch(`http://www.app.local/api/v2/peatio/members/me`, {
+            headers: { 'Accept': 'application/json' },
+        }).then(res => {
+            if (res.status === 200) { return res.json() }
+            throw new Error("Can't load accounts data")
+        })
+    }
 
-  render() {
-    return (
-      <div>
-      {this.state.accounts ? (
-        <div>
-          <Grid container spacing={24} style={{padding: 24}}>
-            { this.state.accounts.map(currentAccount => (
-              <Grid item xs={12} sm={6} lg={4} xl={3}>
-                <Account account={currentAccount} />
-              </Grid>
-            ))}
-          </Grid>
-        </div>
-      ) : "No Accounts yet" }
-      </div>
-    )
-  }
+    signOut () {
+        fetch(`http://www.app.local/api/v2/barong/identity/sessions`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+            }
+        }).then(data => {
+            if (data.status === 200) {
+                window.location.replace('/')
+            }
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+
+    componentDidMount () {
+        this.fetchAccounts().then(data => {
+            console.log(data)
+            this.setState({ accounts: data.accounts })
+        }).catch(err => {
+            console.error(err)
+        })
+    }
+
+    render () {
+        const { classes, user } = this.props;
+        const { accounts } = this.state;
+
+        return (
+            <main className={classes.main}>
+                <CssBaseline />
+
+                <Card className={classes.card}>
+                    <CardHeader title={`Hi, ${user.email}`} />
+
+                    <Divider />
+                    <CardContent>
+                        <Typography component="h3">User</Typography>
+                        <code>
+                            <pre>{JSON.stringify(user, null, 2)}</pre>
+                        </code>
+                    </CardContent>
+
+                    <Divider />
+                    <CardContent>
+                        <Typography component="h3">Wallets</Typography>
+                        <code>
+                            <pre>{JSON.stringify(accounts, null, 2)}</pre>
+                        </code>
+                    </CardContent>
+
+                    <Divider />
+                    <CardActions className={classes.actions} disableActionSpacing>
+                        <Button variant="outlined" color="secondary" onClick={this.signOut}>Logout</Button>
+                    </CardActions>
+                </Card>
+            </main>
+        );
+    }
 }
 
-export default AccountList;
+AccountList.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(AccountList);
