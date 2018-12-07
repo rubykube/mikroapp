@@ -1,12 +1,14 @@
-FROM node:10.11
+FROM node:10.11 AS builder
 
 WORKDIR /home/node
 COPY . .
 RUN chown -R node:node .
 
 USER node
-RUN yarn install
 
-EXPOSE 3000
+RUN yarn install && yarn build
 
-CMD ["yarn", "start"]
+FROM nginx:mainline-alpine
+
+COPY --from=builder /home/node/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
