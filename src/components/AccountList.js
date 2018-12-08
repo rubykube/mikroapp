@@ -41,7 +41,7 @@ class AccountList extends React.Component {
     state = { accounts: [] }
 
     fetchAccounts () {
-        return fetch(`http://www.app.local/api/v2/peatio/account/balances`, {
+        return fetch(`/api/v2/peatio/account/balances`, {
             headers: { 'Accept': 'application/json' },
         }).then(res => {
             if (res.status === 200) { return res.json() }
@@ -50,7 +50,7 @@ class AccountList extends React.Component {
     }
 
     signOut () {
-        fetch(`http://www.app.local/api/v2/barong/identity/sessions`, {
+        fetch(`/api/v2/barong/identity/sessions`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

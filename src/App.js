@@ -15,7 +15,7 @@ class App extends Component {
     }
 
     fetchCurrentUser () {
-        return fetch(`http://www.app.local/api/v2/barong/resource/users/me`, {
+        return fetch(`/api/v2/barong/resource/users/me`, {
             credentials: "same-origin",
             headers: { "Accept": "application/json" },
         }).then(res => {

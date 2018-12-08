@@ -60,7 +60,7 @@ class Login extends React.Component {
 
         const { email, password } = this.state
 
-        fetch(`http://www.app.local/api/v2/barong/identity/sessions`, {
+        fetch(`/api/v2/barong/identity/sessions`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
