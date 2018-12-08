@@ -1,4 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Build Status](https://cloud.drone.io/api/badges/rubykube/mikroapp/status.svg)](https://cloud.drone.io/rubykube/mikroapp)
+
+# MikroApp
+
+Rubykube wallet frontend for peatio and barong
 
 ## Available Scripts
 
