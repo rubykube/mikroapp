@@ -5,9 +5,16 @@
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
+    "cryptocurrency-icons": "^0.9.3",
     "react": "^16.6.3",
+    "react-compose": "^2.0.0",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1"
+    "react-redux": "^6.0.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,5 +30,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-react": "^7.11.0"
+  }
 }
