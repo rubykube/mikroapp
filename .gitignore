@@ -11,6 +11,10 @@
 # production
 /build
 
+# unimplemented_documentation
+/docs
+/out
+
 # misc
 .DS_Store
 .env.local
@@ -21,3 +25,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.idea/

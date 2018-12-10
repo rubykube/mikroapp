@@ -5,15 +5,31 @@
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
+    "axios": "^0.18.0",
+    "connected-react-router": "^6.0.0",
+    "cryptocurrency-icons": "^0.9.3",
+    "history": "^4.7.2",
+    "moment": "^2.23.0",
+    "qrcode.react": "^0.8.0",
+    "query-string": "^6.2.0",
     "react": "^16.6.3",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1"
+    "react-redux": "^6.0.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1",
+    "redux-saga": "^0.16.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test",
+    "eject": "react-scripts eject",
+    "docs": "NODE_ENV=development BABEL_ENV=development jsdoc -c ./.jsdoc.json",
+    "eslint:fix": "eslint ./src/**/*.js --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -23,5 +39,17 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-react": "^7.11.0",
+    "jsdoc": "^3.5.5",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-react": "^1.0.0",
+    "jsdoc-react-proptypes": "^1.0.3",
+    "minami": "^1.2.3",
+    "redux-logger": "^3.0.6"
+  }
 }
