@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import { host } from './config';
@@ -11,16 +12,20 @@ import Login from './containers/Login';
 import WalletsPage from './containers/pages/WalletsPage';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { store } from './store';
+import { history } from './history';
 import './App.css';
 
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
-      main: 'rgb(81, 151, 208)'
+      main: '#2196F3'
     },
     secondary: {
       main: '#fff'
     },
+    action: {
+      selected: '#4696ec1f'
+    }
   },
 });
 
@@ -80,7 +85,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <MuiThemeProvider theme={muiTheme}>
-          <BrowserRouter>
+          <ConnectedRouter history={history}>
             <div className={classes.root}>
               <CssBaseline />
               <NavBar user={currentUser} />
@@ -103,7 +108,7 @@ class App extends Component {
                 />
               </main>
             </div>
-          </BrowserRouter>
+          </ConnectedRouter>
         </MuiThemeProvider>
       </Provider>
     );

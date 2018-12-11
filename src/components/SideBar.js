@@ -22,12 +22,25 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
+  listItem: {
+    margin: '8px 14px',
+    padding: '8px 10px',
+    borderRadius: '4px',
+    width: 'calc(100% - 28px)'
+  },
+  selectedText: {
+    color: theme.palette.primary.main,
+    fontWeight: 600
+  },
+  selectedIcon: {
+    filter: 'invert(1) brightness(0.5) sepia(1) hue-rotate(180deg) saturate(6)'
+  }
 });
 
 class SideBar extends Component {
   render() {
-    const { classes, balancesData } = this.props;
+    const { classes, balancesData, activeBalance } = this.props;
 
     return (
       <Drawer
@@ -46,15 +59,22 @@ class SideBar extends Component {
               key={currency}
               alignItems="flex-start"
               onClick={() => this.props.setActiveBalance(currency)}
+              selected={currency === activeBalance}
+              className={classes.listItem}
             >
               <ListItemAvatar>
-                <Avatar alt={currency} src={currencyData[currency] ? currencyData[currency].icon : ''} />
+                <Avatar
+                  alt={currency}
+                  src={currencyData[currency] ? currencyData[currency].icon : ''}
+                  className={currency === activeBalance && classes.selectedIcon}
+                />
               </ListItemAvatar>
               <ListItemText
                 primary={currencyData[currency] && currencyData[currency].name || 'no name'}
+                classes={{primary: currency === activeBalance && classes.selectedText}}
                 secondary={
                   <>
-                    <Typography component="span" className={classes.inline} color="textPrimary">
+                    <Typography component="span" className={currency === activeBalance && classes.selectedText} color="textPrimary">
                       Balance: {balance}
                     </Typography>
                   </>

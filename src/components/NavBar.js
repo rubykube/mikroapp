@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import compose from 'recompose/compose';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,9 +13,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
 
+import { host } from '../config';
+
 const styles = theme => ({
   appBar: {
-    zIndex: theme.zIndex.drawer + 1
+    zIndex: theme.zIndex.drawer + 1,
+    boxShadow: '0 0px 10px rgba(0, 0, 0, 0.15)'
   },
   tabsFlexContainer: {
     height: 64,
@@ -37,21 +44,36 @@ class NavBar extends Component {
     this.setState({ anchorEl: null });
   };
 
+  logoutUser = () => {
+    fetch(`${host}/api/v2/barong/identity/sessions`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+      }
+    }).then(data => {
+      if (data.status === 200) {
+        this.props.history.push('/');
+      }
+    }).catch(err => {
+      console.error(err);
+    });
+  }
+
   render() {
-    const {classes} = this.props;
+    const {classes, location} = this.props;
     const {anchorEl} = this.state;
 
     return (
       <div>
         <AppBar className={classes.appBar} position="fixed">
           <Toolbar>
-            <Typography variant="title" color="inherit">
-              MikroApp
-            </Typography>
+            <img src={require('../assets/logo.png')} height={50} />
             <div className={classes.grow} />
-            <Tabs value={1} classes={{flexContainer: classes.tabsFlexContainer}}>
-              <Tab label="TRADE" />
-              <Tab label="WALLETS" />
+            <Tabs value={location.pathname === '/trade' ? 0 : 1} classes={{
+              flexContainer: classes.tabsFlexContainer
+            }}>
+              <Tab label="TRADE" component={Link} to="/trade" />
+              <Tab label="WALLETS" component={Link} to="/wallets" />
             </Tabs>
             <Avatar
               src="https://material-ui.com/static/images/avatar/1.jpg"
@@ -67,9 +89,7 @@ class NavBar extends Component {
             open={Boolean(anchorEl)}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-            <MenuItem onClick={this.handleClose}>My account</MenuItem>
-            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            <MenuItem onClick={this.logoutUser}>Logout</MenuItem>
           </Menu>
         </AppBar>
       </div>
@@ -77,4 +97,7 @@ class NavBar extends Component {
   }
 }
 
-export default withStyles(styles)(NavBar);
+export default compose(
+  withRouter,
+  withStyles(styles)
+)(NavBar);

@@ -23,6 +23,7 @@ class SideBarContiner extends Component {
 
     return <SideBar
       balancesData={this.props.balances}
+      activeBalance={this.props.activeBalance}
       setActiveBalance={this.props.actions.setActiveBalance}
     />;
   }
