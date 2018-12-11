@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
@@ -71,7 +71,7 @@ const styles = theme => ({
 
 class WalletsPage extends Component {
   render() {
-    const { classes, location, activeBalance, balances } = this.props;
+    const { classes, location, activeBalance, balances, user } = this.props;
 
     const activeBalanceData = balances.find(({currency}) => currency === activeBalance) || {
       balance: 0,
@@ -86,6 +86,7 @@ class WalletsPage extends Component {
 
     return (
       <>
+        {!user.email && <Redirect to="/" />}
         <Typography
           variant="h4"
           classes={{

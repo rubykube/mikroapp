@@ -104,7 +104,7 @@ class App extends Component {
                 />
                 <Route
                   path="/wallets"
-                  component={WalletsPage}
+                  render={() => <WalletsPage user={currentUser} />}
                 />
               </main>
             </div>

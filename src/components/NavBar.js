@@ -60,7 +60,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const {classes, location} = this.props;
+    const {classes, location, user} = this.props;
     const {anchorEl} = this.state;
 
     return (
@@ -69,19 +69,27 @@ class NavBar extends Component {
           <Toolbar>
             <img src={require('../assets/logo.png')} height={50} />
             <div className={classes.grow} />
-            <Tabs value={location.pathname === '/trade' ? 0 : 1} classes={{
-              flexContainer: classes.tabsFlexContainer
-            }}>
-              <Tab label="TRADE" component={Link} to="/trade" />
-              <Tab label="WALLETS" component={Link} to="/wallets" />
-            </Tabs>
-            <Avatar
-              src="https://material-ui.com/static/images/avatar/1.jpg"
-              aria-owns={anchorEl ? 'simple-menu' : undefined}
-              aria-haspopup="true"
-              onClick={this.handleClick}
-              classes={{root: classes.avatar}}
-            />
+            {
+              user.email ? (
+                <>
+                  <Tabs value={location.pathname === '/trade' ? 0 : (
+                    location.pathname.indexOf('/wallets') >= 0 ? 1 : undefined
+                  )} classes={{
+                    flexContainer: classes.tabsFlexContainer
+                  }}>
+                    <Tab label="TRADE" component={Link} to="/trade" />
+                    <Tab label="WALLETS" component={Link} to="/wallets" />
+                  </Tabs>
+                  <Avatar
+                    src="https://material-ui.com/static/images/avatar/1.jpg"
+                    aria-owns={anchorEl ? 'simple-menu' : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleClick}
+                    classes={{root: classes.avatar}}
+                  />
+                </>
+              ) : null
+            }
           </Toolbar>
           <Menu
             id="simple-menu"
