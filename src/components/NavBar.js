@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import compose from 'recompose/compose';
 import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,8 +13,13 @@ import Tab from '@material-ui/core/Tab';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import Hidden from '@material-ui/core/Hidden';
 
 import { host } from '../config';
+import { currencyData, getMatch } from '../utils';
 
 const styles = theme => ({
   appBar: {
@@ -36,12 +42,16 @@ class NavBar extends Component {
     anchorEl: null
   };
 
+  handleMenuClick = event => {
+    this.setState({ menuAnchorEl: event.currentTarget });
+  };
+
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ anchorEl: null, menuAnchorEl: null });
   };
 
   logoutUser = () => {
@@ -59,38 +69,102 @@ class NavBar extends Component {
     });
   }
 
+  goBack = () => {
+    const {history, location} = this.props;
+
+    if (location.search.length > 0) {
+      history.push({
+        ...location,
+        pathname: location.pathname.slice(0, location.pathname.lastIndexOf('/')),
+        search: ''
+      });
+    }
+  }
+
   render() {
-    const {classes, location, user} = this.props;
-    const {anchorEl} = this.state;
+    const {classes, location, user, activeBalance} = this.props;
+    const {anchorEl, menuAnchorEl} = this.state;
+
+    const menuButton = (
+      <IconButton
+        color="inherit"
+        aria-label="Menu"
+        aria-owns={menuAnchorEl ? 'nav-menu' : undefined}
+        aria-haspopup="true"
+        onClick={this.handleMenuClick}
+      >
+        <MenuIcon />
+      </IconButton>
+    );
+
+    const query = queryString.parse(location.search);
+
+    // const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium';
 
     return (
       <div>
         <AppBar className={classes.appBar} position="fixed">
           <Toolbar>
-            <img src={require('../assets/logo.png')} height={50} />
+            {/* <img src={require('../assets/logo.png')} height={50} /> */}
+
+            <Hidden smUp implementation="css">
+              {
+                (location.pathname.indexOf('/wallet') >= 0) && query.currency ? (
+                  <IconButton
+                    color="inherit"
+                    onClick={this.goBack}
+                  >
+                    <BackIcon />
+                  </IconButton>
+                ) : menuButton
+              }
+            </Hidden>
+            <Hidden xsDown implementation="css">
+              {menuButton}
+            </Hidden>
+            <Hidden smUp implementation="css">
+              <Typography variant="h6" color="inherit">
+                {getMatch({
+                  '/wallets': activeBalance ? (
+                    currencyData && currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium'
+                  ) : 'Wallets'
+                }, location.pathname, true)}
+              </Typography>
+            </Hidden>
             <div className={classes.grow} />
-            {
-              user.email ? (
-                <>
-                  <Tabs value={location.pathname === '/trade' ? 0 : (
-                    location.pathname.indexOf('/wallets') >= 0 ? 1 : undefined
-                  )} classes={{
-                    flexContainer: classes.tabsFlexContainer
-                  }}>
-                    <Tab label="TRADE" component={Link} to="/trade" />
-                    <Tab label="WALLETS" component={Link} to="/wallets" />
-                  </Tabs>
-                  <Avatar
-                    src="https://material-ui.com/static/images/avatar/1.jpg"
-                    aria-owns={anchorEl ? 'simple-menu' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleClick}
-                    classes={{root: classes.avatar}}
-                  />
-                </>
-              ) : null
-            }
+            <Hidden xsDown implementation="js">
+              {
+                user.email ? (
+                  <>
+                    <Tabs value={location.pathname === '/trade' ? 0 : (
+                      location.pathname.indexOf('/wallets') >= 0 ? 1 : undefined
+                    )} classes={{
+                      flexContainer: classes.tabsFlexContainer
+                    }}>
+                      <Tab label="TRADE" component={Link} to="/trade" />
+                      <Tab label="WALLETS" component={Link} to="/wallets" />
+                    </Tabs>
+                    <Avatar
+                      src="https://material-ui.com/static/images/avatar/1.jpg"
+                      aria-owns={anchorEl ? 'simple-menu' : undefined}
+                      aria-haspopup="true"
+                      onClick={this.handleClick}
+                      classes={{root: classes.avatar}}
+                    />
+                  </>
+                ) : null
+              }
+            </Hidden>
           </Toolbar>
+          <Menu
+            id="nav-menu"
+            anchorEl={menuAnchorEl}
+            open={Boolean(menuAnchorEl)}
+            onClose={this.handleClose}
+          >
+            <Link to="/trade"><MenuItem>TRADE</MenuItem></Link>
+            <Link to="/wallets"><MenuItem>WALLETS</MenuItem></Link>
+          </Menu>
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
@@ -107,5 +181,9 @@ class NavBar extends Component {
 
 export default compose(
   withRouter,
-  withStyles(styles)
+  withStyles(styles),
+  connect(state => ({
+    // balances: state.balances.list,
+    activeBalance: state.balances.activeBalance
+  })),
 )(NavBar);

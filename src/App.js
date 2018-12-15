@@ -18,7 +18,7 @@ import './App.css';
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
-      main: '#2196F3'
+      main: '#F44336'
     },
     secondary: {
       main: '#fff'
@@ -35,6 +35,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
+    background: 'white'
     // padding: theme.spacing.unit * 3,
   },
   toolbar: theme.mixins.toolbar
@@ -82,6 +83,25 @@ class App extends Component {
     const { classes } = this.props;
     const { currentUser, loading } = this.state;
 
+    const mainContent = (
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Route
+          path="/"
+          exact
+          render={() => (
+            (!loading && currentUser) && (
+              currentUser.email ? <AccountList user={currentUser} /> : <Login />
+            )
+          )}
+        />
+        <Route
+          path="/wallets"
+          render={() => <WalletsPage user={currentUser} />}
+        />
+      </main>
+    );
+
     return (
       <Provider store={store}>
         <MuiThemeProvider theme={muiTheme}>
@@ -91,22 +111,7 @@ class App extends Component {
               <NavBar user={currentUser} />
               <div className={classes.toolbar} />
               <SideBarContainer />
-              <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <Route
-                  path="/"
-                  exact
-                  render={() => (
-                    (!loading && currentUser) && (
-                      currentUser.email ? <AccountList user={currentUser} /> : <Login />
-                    )
-                  )}
-                />
-                <Route
-                  path="/wallets"
-                  render={() => <WalletsPage user={currentUser} />}
-                />
-              </main>
+              {mainContent}
             </div>
           </ConnectedRouter>
         </MuiThemeProvider>

@@ -9,6 +9,7 @@
     "cryptocurrency-icons": "^0.9.3",
     "history": "^4.7.2",
     "qrcode.react": "^0.8.0",
+    "query-string": "^6.2.0",
     "react": "^16.6.3",
     "react-compose": "^2.0.0",
     "react-dom": "^16.6.3",

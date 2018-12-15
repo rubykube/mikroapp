@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 export default function (
   state = {
     list: [],
@@ -6,10 +8,10 @@ export default function (
   action
 ) {
   switch (action.type) {
-    case 'balances/SET_ACTIVE_BALANCE': {
+    case '@@router/LOCATION_CHANGE': {
       state = {
         ...state,
-        activeBalance: action.payload.balanceId
+        activeBalance: queryString.parse(action.payload.location.search).currency
       };
 
       break;
