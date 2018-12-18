@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
 import compose from 'recompose/compose';
@@ -12,7 +13,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 
-import {currencyData} from '../utils';
+import { currencyData } from '../utils';
+import { host } from '../config';
+import actions from '../actions';
 
 const styles = theme => ({
   drawer: {
@@ -42,9 +45,33 @@ const styles = theme => ({
   }
 });
 
+/**
+ * SideBar component
+ */
 class SideBar extends Component {
+  static propTypes = {
+    /** {Array<{currency: String, balance: Number, locked: Number}>} A list of balances */
+    balancesData: PropTypes.arrayOf(
+      PropTypes.shape({
+        currency: PropTypes.string.isRequired,
+        balance: PropTypes.number.isRequired,
+        locked: PropTypes.number.isRequired
+      })
+    ),
+    /** {String} A currency id representing selected balance */
+    activeBalance: PropTypes.string
+  };
+
+  fetchWalletAdress(currency) {
+    fetch(`${host}/api/v2/peatio/account/deposit_address/${currency}`)
+      .then(res => res.json())
+      .then(data => {
+        this.props.actions.setWalletAddress(data);
+      });
+  }
+
   render() {
-    const { classes, balancesData, history, activeBalance } = this.props;
+    const { classes, balancesData, walletAddresses, history, activeBalance } = this.props;
 
     const drawerContent = (
       <>
@@ -55,7 +82,13 @@ class SideBar extends Component {
               button
               key={currency}
               alignItems="flex-start"
-              onClick={() => this.props.setActiveBalance(currency)}
+              onClick={() => {
+                this.props.setActiveBalance(currency);
+
+                if (activeBalance && walletAddresses[activeBalance] === undefined) {
+                  this.fetchWalletAdress(activeBalance);
+                }
+              }}
               selected={currency === activeBalance}
               className={classes.listItem}
             >
@@ -108,6 +141,9 @@ class SideBar extends Component {
 }
 
 export default compose(
+  connect(state => ({
+    walletAddresses: state.balances.addresses
+  }), actions),
   withRouter,
   withStyles(styles),
 )(SideBar);

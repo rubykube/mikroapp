@@ -21,10 +21,11 @@
     "redux": "^4.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docs": "NODE_ENV=development BABEL_ENV=development jsdoc -c ./.jsdoc.json"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +40,11 @@
     "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.5",
     "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-react": "^7.11.0"
+    "eslint-plugin-react": "^7.11.0",
+    "jsdoc": "^3.5.5",
+    "jsdoc-babel": "^0.5.0",
+    "jsdoc-react": "^1.0.0",
+    "jsdoc-react-proptypes": "^1.0.3",
+    "minami": "^1.2.3"
   }
 }

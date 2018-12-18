@@ -71,7 +71,7 @@ class Login extends React.Component {
       body: JSON.stringify({ email, password })
     }).then(data => {
       if (data.status === 200) {
-        window.location.replace('/');
+        window.location.replace('/wallets');
       }
     }).catch(err => {
       console.error(err);

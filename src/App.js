@@ -6,10 +6,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import { host } from './config';
 import NavBar from './components/NavBar';
-import SideBarContainer from './containers/SideBarContainer';
-import AccountList from './components/AccountList';
 import Login from './containers/Login';
-import WalletsPage from './containers/pages/WalletsPage';
+import Typography from '@material-ui/core/Typography';
+import WalletsPage from './pages/WalletsPage';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { store } from './store';
 import { history } from './history';
@@ -33,14 +32,12 @@ const styles = theme => ({
   root: {
     display: 'flex',
   },
-  content: {
-    flexGrow: 1,
-    background: 'white'
-    // padding: theme.spacing.unit * 3,
-  },
   toolbar: theme.mixins.toolbar
 });
 
+/**
+ * `App` component is a container for things like _redux Provider_, _react-router's Router_
+ */
 class App extends Component {
   constructor(props) {
     super(props);
@@ -83,35 +80,38 @@ class App extends Component {
     const { classes } = this.props;
     const { currentUser, loading } = this.state;
 
-    const mainContent = (
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Route
-          path="/"
-          exact
-          render={() => (
-            (!loading && currentUser) && (
-              currentUser.email ? <AccountList user={currentUser} /> : <Login />
-            )
-          )}
-        />
-        <Route
-          path="/wallets"
-          render={() => <WalletsPage user={currentUser} />}
-        />
-      </main>
-    );
-
     return (
       <Provider store={store}>
         <MuiThemeProvider theme={muiTheme}>
           <ConnectedRouter history={history}>
-            <div className={classes.root}>
-              <CssBaseline />
+            <div>
               <NavBar user={currentUser} />
               <div className={classes.toolbar} />
-              <SideBarContainer />
-              {mainContent}
+              <div className={classes.root}>
+                <CssBaseline />
+                <Route
+                  path="/"
+                  exact
+                  render={() => (
+                    (!loading && currentUser) && (
+                      currentUser.email ? (
+                        <Typography variant="h4" style={{padding: 40}}>You are logged in!</Typography>
+                      ) : <Login />
+                    )
+                  )}
+                />
+                <Route
+                  path="/trade"
+                  exact
+                  render={() => (
+                    <Typography variant="h4" style={{padding: 40}}>Trades coming soon!</Typography>
+                  )}
+                />
+                <Route
+                  path="/wallets"
+                  render={() => <WalletsPage user={currentUser} />}
+                />
+              </div>
             </div>
           </ConnectedRouter>
         </MuiThemeProvider>

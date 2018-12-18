@@ -16,6 +16,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import BackIcon from '@material-ui/icons/ArrowBack';
+import PersonIcon from '@material-ui/icons/Person';
 import Hidden from '@material-ui/core/Hidden';
 
 import { host } from '../config';
@@ -30,7 +31,8 @@ const styles = theme => ({
     height: 64,
   },
   avatar: {
-    margin: '0 20px'
+    margin: '0 20px',
+    background: theme.palette.primary.dark
   },
   grow: {
     flexGrow: 1
@@ -145,12 +147,13 @@ class NavBar extends Component {
                       <Tab label="WALLETS" component={Link} to="/wallets" />
                     </Tabs>
                     <Avatar
-                      src="https://material-ui.com/static/images/avatar/1.jpg"
                       aria-owns={anchorEl ? 'simple-menu' : undefined}
                       aria-haspopup="true"
                       onClick={this.handleClick}
                       classes={{root: classes.avatar}}
-                    />
+                    >
+                      <PersonIcon />
+                    </Avatar>
                   </>
                 ) : null
               }
