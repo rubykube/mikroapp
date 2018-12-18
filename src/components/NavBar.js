@@ -111,7 +111,7 @@ class NavBar extends Component {
 
             <Hidden smUp implementation="css">
               {
-                (location.pathname.indexOf('/wallet') >= 0) && query.currency ? (
+                (location.pathname.indexOf('/wallet') >= 0) && activeBalance ? (
                   <IconButton
                     color="inherit"
                     onClick={this.goBack}
@@ -128,7 +128,7 @@ class NavBar extends Component {
               <Typography variant="h6" color="inherit">
                 {getMatch({
                   '/wallets': activeBalance ? (
-                    currencyData && currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium' // eslint-disable-line 
+                    currencyData && currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium' // eslint-disable-line
                   ) : 'Wallets'
                 }, location.pathname, true)}
               </Typography>

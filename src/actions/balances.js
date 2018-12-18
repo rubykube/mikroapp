@@ -14,16 +14,20 @@ export function setActiveBalance(balanceId) {
 }
 
 export function setBalances(balances) {
-  return {
-    type: 'balances/SET_BALANCES',
-    payload: {
-      balances: balances.map(({currency, balance, locked}) => ({
-        currency,
-        balance: +balance, // Convert to numeric
-        locked: +locked // Convert to numeric
-      }))
-    }
-  };
+  return dispatch => {
+    dispatch({
+      type: 'balances/SET_BALANCES',
+      payload: {
+        balances: balances.map(({currency, balance, locked}) => ({
+          currency,
+          balance: +balance, // Convert to numeric
+          locked: +locked // Convert to numeric
+        }))
+      }
+    });
+
+    dispatch(setActiveBalance(balances[0].currency));
+  }
 }
 
 export function setWalletAddress({currency, address}) {

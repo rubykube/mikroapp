@@ -135,7 +135,7 @@ class WalletsPage extends Component {
       locked: 0
     };
 
-    const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium'; // eslint-disable-line 
+    const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium'; // eslint-disable-line
 
     const tabClasses = {
       wrapper: classes.tabWrapper,
@@ -147,9 +147,11 @@ class WalletsPage extends Component {
       <>
         <SideBarContainer />
         <main className={classes.content}>
-          <div style={{display: activeBalance ? 'none' : 'block'}}>
-            <Typography variant="h5" style={{padding: 40}}>Please select a wallet</Typography>
-          </div>
+          <Hidden xsDown implementation="css">
+            <div style={{display: activeBalance ? 'none' : 'block'}}>
+              <Typography variant="h5" style={{padding: 40}}>Please select a wallet</Typography>
+            </div>
+          </Hidden>
           <div style={{width: '100%', display: activeBalance ? 'block' : 'none'}}>
             {!user.email && <Redirect to="/" />}
 

@@ -74,46 +74,43 @@ class SideBar extends Component {
     const { classes, balancesData, walletAddresses, activeBalance } = this.props;
 
     const drawerContent = (
-      <>
-        <div className={classes.toolbar} />
-        <List>
-          {balancesData.map(({currency, balance}) => (
-            <ListItem
-              button
-              key={currency}
-              alignItems="flex-start"
-              onClick={() => {
-                this.props.setActiveBalance(currency);
+      <List>
+        {balancesData.map(({currency, balance}) => (
+          <ListItem
+            button
+            key={currency}
+            alignItems="flex-start"
+            onClick={() => {
+              this.props.setActiveBalance(currency);
 
-                if (activeBalance && walletAddresses[activeBalance] === undefined) {
-                  this.fetchWalletAdress(activeBalance);
-                }
-              }}
-              selected={currency === activeBalance}
-              className={classes.listItem}
-            >
-              <ListItemAvatar>
-                <Avatar
-                  alt={currency}
-                  src={currencyData[currency] ? currencyData[currency].icon : ''}
-                  className={currency === activeBalance && classes.selectedIcon}
-                />
-              </ListItemAvatar>
-              <ListItemText
-                primary={currencyData[currency] && currencyData[currency].name || 'no name'} // eslint-disable-line
-                classes={{primary: currency === activeBalance && classes.selectedText}}
-                secondary={
-                  <>
-                    <Typography component="span" className={currency === activeBalance && classes.selectedText} color="textPrimary">
-                      Balance: {balance}
-                    </Typography>
-                  </>
-                }
+              if (activeBalance && walletAddresses[activeBalance] === undefined) {
+                this.fetchWalletAdress(activeBalance);
+              }
+            }}
+            selected={currency === activeBalance}
+            className={classes.listItem}
+          >
+            <ListItemAvatar>
+              <Avatar
+                alt={currency}
+                src={currencyData[currency] ? currencyData[currency].icon : ''}
+                className={currency === activeBalance && classes.selectedIcon}
               />
-            </ListItem>
-          ))}
-        </List>
-      </>
+            </ListItemAvatar>
+            <ListItemText
+              primary={currencyData[currency] && currencyData[currency].name || 'no name'} // eslint-disable-line
+              classes={{primary: currency === activeBalance && classes.selectedText}}
+              secondary={
+                <>
+                  <Typography component="span" className={currency === activeBalance && classes.selectedText} color="textPrimary">
+                    Balance: {balance}
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
     );
 
     return (
@@ -132,6 +129,7 @@ class SideBar extends Component {
               paper: classes.drawerPaper
             }}
           >
+            <div className={classes.toolbar} />
             {drawerContent}
           </Drawer>
         </Hidden>

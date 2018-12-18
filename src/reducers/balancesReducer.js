@@ -21,8 +21,7 @@ export default function (
     case 'balances/SET_BALANCES': {
       state = {
         ...state,
-        list: action.payload.balances,
-        activeBalance: action.payload.balances[0].currency
+        list: action.payload.balances
       };
 
       break;
