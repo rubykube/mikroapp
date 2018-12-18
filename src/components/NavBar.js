@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
@@ -98,8 +97,6 @@ class NavBar extends Component {
         <MenuIcon />
       </IconButton>
     );
-
-    const query = queryString.parse(location.search);
 
     // const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium';
 
