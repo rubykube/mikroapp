@@ -71,7 +71,7 @@ class SideBar extends Component {
   }
 
   render() {
-    const { classes, balancesData, walletAddresses, history, activeBalance } = this.props;
+    const { classes, balancesData, walletAddresses, activeBalance } = this.props;
 
     const drawerContent = (
       <>
@@ -100,7 +100,7 @@ class SideBar extends Component {
                 />
               </ListItemAvatar>
               <ListItemText
-                primary={currencyData[currency] && currencyData[currency].name || 'no name'}
+                primary={currencyData[currency] && currencyData[currency].name || 'no name'} // eslint-disable-line
                 classes={{primary: currency === activeBalance && classes.selectedText}}
                 secondary={
                   <>

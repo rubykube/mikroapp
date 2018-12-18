@@ -19,7 +19,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TablePagination from '@material-ui/core/TablePagination';
+// import TablePagination from '@material-ui/core/TablePagination';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -135,7 +135,7 @@ class WalletsPage extends Component {
       locked: 0
     };
 
-    const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium';
+    const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium'; // eslint-disable-line 
 
     const tabClasses = {
       wrapper: classes.tabWrapper,

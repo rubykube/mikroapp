@@ -128,7 +128,7 @@ class NavBar extends Component {
               <Typography variant="h6" color="inherit">
                 {getMatch({
                   '/wallets': activeBalance ? (
-                    currencyData && currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium'
+                    currencyData && currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium' // eslint-disable-line 
                   ) : 'Wallets'
                 }, location.pathname, true)}
               </Typography>
