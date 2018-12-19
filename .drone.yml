@@ -2,9 +2,59 @@ kind: pipeline
 name: MikroApp
 
 steps:
+
 - name: test
   image: node:11
   commands:
-  - yarn
-  - yarn build
-  - yarn test
+    - yarn
+    - yarn build
+    - yarn test
+
+- name: tag
+  image: node:11
+  environment:
+      GITHUB_API_KEY:
+        from_secret: rubykube_bot_creds_b64
+  commands:
+    - git config --global user.name "OpenWare"
+    - git config --global user.email "support@openware.com"
+    - git remote add authenticated-origin https://rubykube-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
+    - git fetch authenticated-origin
+    - yarn version --patch -y --tag-version-prefix '[skip ci] Bump %s'
+    - git push origin master
+    - git push --tags origin
+    - git describe --tags $(git rev-list --tags --max-count=1) > .tags
+  when:
+    branch:
+      - master
+    event:
+      - push
+
+- name: push
+  image: plugins/docker
+  settings:
+    repo: rubykube/mikroapp
+    username:
+      from_secret: mikroapp_docker_username
+    password:
+      from_secret: mikroapp_docker_password
+  when:
+    branch:
+      - master
+    event:
+      - push
+
+- name: deploy
+  image: rubykube/microkube:0.1.0
+  environment:
+      WEBHOOK_JWT_SECRET:
+          from_secret: microkube_webhook_secret
+  commands:
+    - export latest_image=rubykube/mikroapp:$(cat .tags)
+    - cd /home/app
+    - bundle exec rake payload:send[frontend,$latest_image,http://www.microkube.com:1337]
+  when:
+    branch:
+      - master
+    event:
+      - push
