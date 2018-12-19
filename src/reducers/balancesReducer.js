@@ -5,7 +5,10 @@ export default function (
     list: [],
     activeBalance: null,
     addresses: {},
-    history: {}
+    history: {
+      deposits: [],
+      withdraws: []
+    }
   },
   action
 ) {
@@ -37,12 +40,23 @@ export default function (
 
       break;
     }
-    case 'balances/SET_HISTORY': {
+    case 'balances/SET_DEPOSITS_HISTORY': {
       state = {
         ...state,
         history: {
           ...state.history,
-          [action.payload.currency]: action.payload.history
+          deposits: action.payload.history
+        }
+      };
+
+      break;
+    }
+    case 'balances/SET_WITHDRAWS_HISTORY': {
+      state = {
+        ...state,
+        history: {
+          ...state.history,
+          withdraws: action.payload.history
         }
       };
 

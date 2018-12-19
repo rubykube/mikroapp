@@ -127,8 +127,85 @@ const styles = theme => ({
 });
 
 class WalletsPage extends Component {
+  static formatDate = dateString =>
+    new Date(dateString).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
+
+  renderHistoryBlock(title, history) {
+    const { classes, activeBalance } = this.props;
+
+    const filteredHistory = history.filter(({currency}) => currency === activeBalance);
+    console.log(filteredHistory);
+
+    return (
+      <>
+        <Grid container>
+          <Grid item xs={11}>
+            <Typography
+              variant="h4"
+              classes={{h4: classes.allActionText}}
+              gutterBottom
+            >{title}</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <IconButton classes={{root: classes.filterIcon}}>
+              <FilterListIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="none">Date</TableCell>
+              <TableCell padding="none" numeric>Status</TableCell>
+              <TableCell padding="none" numeric>Fee</TableCell>
+              <TableCell padding="none" numeric>Amount</TableCell>
+              <TableCell padding="none" numeric>Balance</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {
+              filteredHistory.map(data => (
+                <TableRow>
+                  <TableCell padding="none">{WalletsPage.formatDate(data.created_at)}</TableCell>
+                  <TableCell padding="none" numeric>{data.state}</TableCell>
+                  <TableCell padding="none" numeric>{data.fee}</TableCell>
+                  <TableCell padding="none" numeric>{data.amount}</TableCell>
+                  <TableCell padding="none" numeric>TODO</TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+        {/* <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={10}
+          rowsPerPage={10}
+          page={10}
+          backIconButtonProps={{
+            'aria-label': 'Previous Page',
+          }}
+          nextIconButtonProps={{
+            'aria-label': 'Next Page',
+          }}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+        /> */}
+      </>
+    );
+  }
+
   render() {
-    const { classes, location, walletAddresses, activeBalance, balances, user } = this.props;
+    const {
+      classes,
+      location,
+      walletAddresses,
+      activeBalance,
+      balances,
+      user,
+      depositHistory,
+      withdrawHistory
+    } = this.props;
 
     const activeBalanceData = balances.find(({currency}) => currency === activeBalance) || {
       balance: 0,
@@ -271,69 +348,7 @@ class WalletsPage extends Component {
                       </Grid>
                       <Grid item xs={12}>
                         <div style={{height: 20}} />
-                        <Grid container>
-                          <Grid item xs={11}>
-                            <Typography
-                              variant="h4"
-                              classes={{h4: classes.allActionText}}
-                              gutterBottom
-                            >Deposit history</Typography>
-                          </Grid>
-                          <Grid item xs={1}>
-                            <IconButton classes={{root: classes.filterIcon}}>
-                              <FilterListIcon />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                        <Table className={classes.table}>
-                          <TableHead>
-                            <TableRow>
-                              <TableCell padding="none">Date</TableCell>
-                              <TableCell padding="none" numeric>Status</TableCell>
-                              <TableCell padding="none" numeric>Fee</TableCell>
-                              <TableCell padding="none" numeric>Amount</TableCell>
-                              <TableCell padding="none" numeric>Balance</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell padding="none">01 Jul 2018</TableCell>
-                              <TableCell padding="none" numeric>Pending</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                            </TableRow>
-                            <TableRow>
-                              <TableCell padding="none">01 Jul 2018</TableCell>
-                              <TableCell padding="none" numeric>Pending</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                            </TableRow>
-                            <TableRow>
-                              <TableCell padding="none">01 Jul 2018</TableCell>
-                              <TableCell padding="none" numeric>Pending</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                              <TableCell padding="none" numeric>0.2544</TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        {/* <TablePagination
-                          rowsPerPageOptions={[5, 10, 25]}
-                          component="div"
-                          count={10}
-                          rowsPerPage={10}
-                          page={10}
-                          backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                          }}
-                          nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                          }}
-                          onChangePage={this.handleChangePage}
-                          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                        /> */}
+                        {this.renderHistoryBlock('Deposit history', depositHistory)}
                       </Grid>
                     </Grid>
                   ),
@@ -379,6 +394,10 @@ class WalletsPage extends Component {
                           Submit
                         </Button>
                       </Grid>
+                      <Grid item xs={12}>
+                        <div style={{height: 20}} />
+                        {this.renderHistoryBlock('Withdraw history', withdrawHistory)}
+                      </Grid>
                     </Grid>
                   )
                 };
@@ -399,7 +418,9 @@ export default compose(
   connect(state => ({
     balances: state.balances.list,
     activeBalance: state.balances.activeBalance,
-    walletAddresses: state.balances.addresses
+    walletAddresses: state.balances.addresses,
+    depositHistory: state.balances.history.deposits,
+    withdrawHistory: state.balances.history.withdraws
   }), actions),
   withRouter,
   withStyles(styles)
