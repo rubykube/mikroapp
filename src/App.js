@@ -1,60 +1,123 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { withStyles } from '@material-ui/core/styles';
+import { host } from './config';
 import NavBar from './components/NavBar';
-import AccountList from './components/AccountList';
-import Login  from './containers/Login';
+import Login from './containers/Login';
+import Typography from '@material-ui/core/Typography';
+import WalletsPage from './pages/WalletsPage';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { store } from './store';
+import { history } from './history';
 import './App.css';
 
+const muiTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#F44336'
+    },
+    secondary: {
+      main: '#fff'
+    },
+    action: {
+      selected: '#4696ec1f'
+    }
+  },
+});
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+  },
+  toolbar: theme.mixins.toolbar
+});
+
+/**
+ * `App` component is a container for things like _redux Provider_, _react-router's Router_
+ */
 class App extends Component {
-    constructor (props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            currentUser: {},
-            loading: true,
-        };
-    }
+    this.state = {
+      currentUser: {},
+      loading: true,
+    };
+  }
 
-    fetchCurrentUser () {
-        return fetch(`/api/v2/barong/resource/users/me`, {
-            credentials: "same-origin",
-            headers: { "Accept": "application/json" },
-        }).then(res => {
-            if (res.ok) { return res.json() }
-            throw new Error("Unauthorized!")
-        })
-    }
+  componentDidMount() {
+    this.fetchCurrentUser().then((data) => {
+      console.log(data);
 
-    componentDidMount () {
-        this.fetchCurrentUser().then(data => {
-            console.log(data)
+      this.setState({
+        currentUser: data,
+        loading: false,
+      });
+    }).catch((err) => {
+      console.log(err);
 
-            this.setState({
-                currentUser: data,
-                loading: false,
-            })
-        }).catch(err => {
-            console.log(err)
+      this.setState({
+        currentUser: {},
+        loading: false,
+      });
+    });
+  }
 
-            this.setState({
-                currentUser: {},
-                loading: false
-            })
-        })
-    }
+  fetchCurrentUser() {
+    return fetch(`${host}/api/v2/barong/resource/users/me`, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    }).then((res) => {
+      if (res.ok) { return res.json(); }
+      throw new Error('Unauthorized!');
+    });
+  }
 
-    render() {
-        const { currentUser, loading } = this.state;
+  render() {
+    const { classes } = this.props;
+    const { currentUser, loading } = this.state;
 
-        return (
+    return (
+      <Provider store={store}>
+        <MuiThemeProvider theme={muiTheme}>
+          <ConnectedRouter history={history}>
             <div>
-                <NavBar user={currentUser} />
-
-                {(!loading && currentUser) && (
-                    currentUser.email ? <AccountList user={currentUser} /> : <Login />
-                )}
+              <NavBar user={currentUser} />
+              <div className={classes.toolbar} />
+              <div className={classes.root}>
+                <CssBaseline />
+                <Route
+                  path="/"
+                  exact
+                  render={() => (
+                    (!loading && currentUser) && (
+                      currentUser.email ? (
+                        <Typography variant="h4" style={{padding: 40}}>You are logged in!</Typography>
+                      ) : <Login />
+                    )
+                  )}
+                />
+                <Route
+                  path="/trade"
+                  exact
+                  render={() => (
+                    <Typography variant="h4" style={{padding: 40}}>Trades coming soon!</Typography>
+                  )}
+                />
+                <Route
+                  path="/wallets"
+                  render={() => <WalletsPage user={currentUser} />}
+                />
+              </div>
             </div>
-        );
-    }
+          </ConnectedRouter>
+        </MuiThemeProvider>
+      </Provider>
+    );
+  }
 }
 
-export default App;
+export default withStyles(styles)(App);
