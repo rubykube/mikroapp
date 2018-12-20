@@ -24,9 +24,9 @@ import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-import SideBarContainer from '../containers/SideBarContainer';
-import actions from '../actions';
-import { currencyData, toMinFixed } from '../utils';
+import SideBar from './SideBar';
+import actions from '../../actions/index';
+import { currencyData, toMinFixed } from '../../utils/index';
 
 const styles = theme => ({
   currencyName: {
@@ -164,8 +164,8 @@ class WalletsPage extends Component {
           </TableHead>
           <TableBody>
             {
-              filteredHistory.map(data => (
-                <TableRow>
+              filteredHistory.map((data, index) => (
+                <TableRow key={index}>
                   <TableCell padding="none">{WalletsPage.formatDate(data.created_at)}</TableCell>
                   <TableCell padding="none" numeric>{data.state}</TableCell>
                   <TableCell padding="none" numeric>{data.fee}</TableCell>
@@ -222,7 +222,7 @@ class WalletsPage extends Component {
 
     return (
       <>
-        <SideBarContainer />
+        <SideBar/>
         <main className={classes.content}>
           <Hidden xsDown implementation="css">
             <div style={{display: activeBalance ? 'none' : 'block'}}>

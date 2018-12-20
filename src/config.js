@@ -1,1 +1,1 @@
-export const host = 'http://localhost:9001';
+export const host = process.env.REACT_APP_API_URL || '';
