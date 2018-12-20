@@ -1,66 +1,54 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
-import compose from 'recompose/compose';
-import Drawer from '@material-ui/core/Drawer';
-import Avatar from '@material-ui/core/Avatar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
+import { connect } from 'react-redux';
+import { host } from '../../../config';
+import actions from '../../../actions/index';
+import compose from "recompose/compose";
+import {withStyles} from "@material-ui/core";
+import List from "@material-ui/core/List/List";
+import ListItem from "@material-ui/core/ListItem/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import {currencyData} from "../../../utils/index";
+import ListItemText from "@material-ui/core/ListItemText/ListItemText";
+import Typography from "@material-ui/core/Typography/Typography";
+import Hidden from "@material-ui/core/Hidden/Hidden";
+import Drawer from "@material-ui/core/Drawer/Drawer";
+import styles from './styles';
 
-import { currencyData } from '../utils';
-import { host } from '../config';
-import actions from '../actions';
-
-const styles = theme => ({
-  drawer: {
-    flexShrink: 0,
-    width: 400
-  },
-  drawerPaper: {
-    minWidth: 400
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-  toolbar: theme.mixins.toolbar,
-  listItem: {
-    margin: '8px 14px',
-    padding: '8px 10px',
-    borderRadius: '4px',
-    width: 'calc(100% - 28px)'
-  },
-  selectedText: {
-    color: theme.palette.primary.main,
-    fontWeight: 600
-  },
-  selectedIcon: {
-    filter: 'invert(1) brightness(0.5) sepia(1.2) hue-rotate(-45deg) saturate(6)'
-  }
-});
-
-/**
- * SideBar component
- */
 class SideBar extends Component {
-  static propTypes = {
-    /** {Array<{currency: String, balance: Number, locked: Number}>} A list of balances */
-    balancesData: PropTypes.arrayOf(
-      PropTypes.shape({
-        currency: PropTypes.string.isRequired,
-        balance: PropTypes.number.isRequired,
-        locked: PropTypes.number.isRequired
-      })
-    ),
-    /** {String} A currency id representing selected balance */
-    activeBalance: PropTypes.string
-  };
+  componentDidMount() {
+    // TODO: Move all fetch requests to redux-saga
+    fetch(`${host}/api/v2/peatio/account/balances`, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    }).then((res) => {
+      if (res.ok) { return res.json(); }
+      throw new Error('Unauthorized!');
+    }).then(data => {
+      this.props.actions.setBalances(data);
+    });
+
+    fetch(`${host}/api/v2/peatio/account/deposits`, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    }).then((res) => {
+      if (res.ok) { return res.json(); }
+      throw new Error('Unauthorized!');
+    }).then(data => {
+      this.props.actions.setDepositsHistory(data);
+    });
+
+    fetch(`${host}/api/v2/peatio/account/withdraws`, {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+    }).then((res) => {
+      if (res.ok) { return res.json(); }
+      throw new Error('Unauthorized!');
+    }).then(data => {
+      this.props.actions.setWithdrawsHistory(data);
+    });
+  }
 
   fetchWalletAdress(currency) {
     fetch(`${host}/api/v2/peatio/account/deposit_address/${currency}`)
@@ -71,17 +59,19 @@ class SideBar extends Component {
   }
 
   render() {
-    const { classes, balancesData, walletAddresses, activeBalance } = this.props;
+    const { classes, balances, walletAddresses, activeBalance, actions } = this.props;
+
+    if (balances.length === 0) return null;
 
     const drawerContent = (
       <List>
-        {balancesData.map(({currency, balance}) => (
+        {balances.map(({currency, balance}) => (
           <ListItem
             button
             key={currency}
             alignItems="flex-start"
             onClick={() => {
-              this.props.setActiveBalance(currency);
+              actions.setActiveBalance(currency);
 
               if (activeBalance && walletAddresses[activeBalance] === undefined) {
                 this.fetchWalletAdress(activeBalance);
@@ -140,8 +130,10 @@ class SideBar extends Component {
 
 export default compose(
   connect(state => ({
-    walletAddresses: state.balances.addresses
+    balances: state.balances.list,
+    activeBalance: state.balances.activeBalance,
+    walletAddresses: state.balances.addresses,
   }), actions),
   withRouter,
-  withStyles(styles),
+  withStyles(styles)
 )(SideBar);

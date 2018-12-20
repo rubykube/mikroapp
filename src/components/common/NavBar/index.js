@@ -17,28 +17,12 @@ import MenuIcon from '@material-ui/icons/Menu';
 import BackIcon from '@material-ui/icons/ArrowBack';
 import PersonIcon from '@material-ui/icons/Person';
 import Hidden from '@material-ui/core/Hidden';
+import styles from './styles';
+import { host } from '../../../config';
+import { currencyData, getMatch } from '../../../utils/index';
 
-import { host } from '../config';
-import { currencyData, getMatch } from '../utils';
 
-const styles = theme => ({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    boxShadow: '0 0px 10px rgba(0, 0, 0, 0.15)'
-  },
-  tabsFlexContainer: {
-    height: 64,
-  },
-  avatar: {
-    margin: '0 20px',
-    background: theme.palette.primary.dark
-  },
-  grow: {
-    flexGrow: 1
-  }
-});
-
-class NavBar extends Component {
+class Index extends Component {
   state = {
     anchorEl: null
   };
@@ -186,4 +170,4 @@ export default compose(
     // balances: state.balances.list,
     activeBalance: state.balances.activeBalance
   })),
-)(NavBar);
+)(Index);

@@ -4,15 +4,15 @@ import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import { host } from './config';
-import NavBar from './components/NavBar';
-import Login from './containers/Login';
+import { host } from '../../config';
+import NavBar from '../common/NavBar/index';
+import Login from '../Login/index';
 import Typography from '@material-ui/core/Typography';
-import WalletsPage from './pages/WalletsPage';
+import WalletsPage from '../Wallet/WalletsPage';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { store } from './store';
-import { history } from './history';
-import './App.css';
+import { store } from '../../store';
+import { history } from '../../history';
+import './styles.css';
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -36,9 +36,9 @@ const styles = theme => ({
 });
 
 /**
- * `App` component is a container for things like _redux Provider_, _react-router's Router_
+ * `Index` component is a container for things like _redux Provider_, _react-router's Router_
  */
-class App extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
 
@@ -120,4 +120,4 @@ class App extends Component {
   }
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(Index);
