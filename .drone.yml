@@ -20,7 +20,8 @@ steps:
     - git config --global user.email "support@rubykube.io"
     - git remote add authenticated-origin https://kite-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
     - git fetch
-    - yarn version --patch -y --tag-version-prefix '[skip ci] Bump %s'
+    - yarn config set version-git-message "[ci Skip] Bump %s"
+    - yarn version --patch -y
     - git push authenticated-origin master
     - git push --tags authenticated-origin
     - git describe --tags $(git rev-list --tags --max-count=1) > .tags
