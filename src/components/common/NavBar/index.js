@@ -19,10 +19,10 @@ import PersonIcon from '@material-ui/icons/Person';
 import Hidden from '@material-ui/core/Hidden';
 import styles from './styles';
 import { host } from '../../../config';
-import { currencyData, getMatch } from '../../../utils/index';
+import { currencyData, getMatch } from '../../../utils';
 
 
-class Index extends Component {
+class NavBar extends Component {
   state = {
     anchorEl: null
   };
@@ -168,6 +168,6 @@ export default compose(
   withStyles(styles),
   connect(state => ({
     // balances: state.balances.list,
-    activeBalance: state.balances.activeBalance
+    activeBalance: state.wallet.activeBalance
   })),
-)(Index);
+)(NavBar);

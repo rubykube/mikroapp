@@ -1,0 +1,64 @@
+import { call, put, takeEvery, select } from 'redux-saga/effects';
+import * as actions from '../actions/wallet';
+import * as types from '../constants/actions';
+import { getWalletData, getWalletAddress } from '../api/wallet';
+import { push } from 'connected-react-router';
+
+
+// Saga sets available wallets
+function* fetchWallet() {
+  try {
+    const [balances, currencies] = yield call(getWalletData);
+    const walletData = balances.reduce((prev, cur) => {
+      return {
+        ...prev,
+        [cur.currency]: {
+          ...currencies[cur.currency],
+          balance: +cur.balance,
+          locked: +cur.locked,
+          address: null,
+        }
+      }
+    }, {});
+
+    yield put(actions.successWalletData(walletData));
+    yield put(actions.setActiveWallet(Object.keys(walletData)[0]));
+  } catch (e) {
+    yield put(actions.failWalletData());
+  }
+}
+
+export function* fetchWalletSaga() {
+  yield takeEvery(types.FETCH_WALLET_DATA, fetchWallet);
+}
+
+// Saga sets active wallet
+function* setActiveWallet({ payload: { id } }) {
+  yield put(push({ search: `?currency=${id}` }));
+  const wallets = yield select(state => state.wallet.list);
+  if (!wallets[id].address) {
+    yield put(actions.fetchWalletAddress(id));
+  }
+}
+
+export function* setActiveWalletSaga() {
+  yield takeEvery(types.SET_ACTIVE_WALLET, setActiveWallet);
+}
+
+
+// Saga sets wallet address
+function* fetchWalletAddress({ payload: { id } }) {
+  const wallets = yield select(state => state.wallet.list);
+  try {
+    const { address } = yield call(getWalletAddress, id);
+    wallets[id].address = address;
+    yield put(actions.successWalletAddress(wallets));
+  } catch (e) {
+    wallets[id].address = null;
+    yield put(actions.failWalletData(wallets));
+  }
+}
+
+export function* fetchWalletAddressSaga() {
+  yield takeEvery(types.FETCH_WALLET_ADDRESS, fetchWalletAddress);
+}

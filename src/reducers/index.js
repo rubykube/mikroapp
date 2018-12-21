@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 import { history } from '../history';
-import balancesReducer from './balancesReducer';
+import walletReducer from './walletReducer';
 import accountReducer from './accountReducer';
 
 export default combineReducers({
-  balances: balancesReducer,
+  wallet: walletReducer,
   account: accountReducer,
   router: connectRouter(history)
 });
