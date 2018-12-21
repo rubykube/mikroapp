@@ -14,15 +14,15 @@ steps:
   image: node:11
   environment:
       GITHUB_API_KEY:
-        from_secret: rubykube_bot_creds_b64
+        from_secret: rubykube_bot_creds
   commands:
-    - git config --global user.name "OpenWare"
-    - git config --global user.email "support@openware.com"
-    - git remote add authenticated-origin https://rubykube-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
-    - git fetch authenticated-origin
+    - git config --global user.name "kite-bot"
+    - git config --global user.email "support@rubykube.io"
+    - git remote add authenticated-origin https://kite-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
+    - git fetch
     - yarn version --patch -y --tag-version-prefix '[skip ci] Bump %s'
-    - git push origin master
-    - git push --tags origin
+    - git push authenticated-origin master
+    - git push --tags authenticated-origin
     - git describe --tags $(git rev-list --tags --max-count=1) > .tags
   when:
     branch:
