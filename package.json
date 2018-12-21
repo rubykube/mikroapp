@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
+    "axios": "^0.18.0",
     "connected-react-router": "^6.0.0",
     "cryptocurrency-icons": "^0.9.3",
     "history": "^4.7.2",
@@ -18,6 +19,7 @@
     "react-scripts": "2.1.1",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
+    "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {

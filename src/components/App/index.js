@@ -1,123 +1,73 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import compose from 'recompose/compose';
 import { Route } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import { host } from '../../config';
-import NavBar from '../common/NavBar/index';
-import Login from '../Login/index';
+import NavBar from '../common/NavBar';
+import Login from '../Login';
 import Typography from '@material-ui/core/Typography';
 import WalletsPage from '../Wallet/WalletsPage';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { store } from '../../store';
-import { history } from '../../history';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import './styles.css';
+import { styles, muiTheme } from './styles';
+import { fetchAccount } from '../../actions/account';
 
-const muiTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#F44336'
-    },
-    secondary: {
-      main: '#fff'
-    },
-    action: {
-      selected: '#4696ec1f'
-    }
-  },
-});
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  toolbar: theme.mixins.toolbar
-});
-
-/**
- * `Index` component is a container for things like _redux Provider_, _react-router's Router_
- */
-class Index extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      currentUser: {},
-      loading: true,
-    };
-  }
-
+class App extends Component {
   componentDidMount() {
-    this.fetchCurrentUser().then((data) => {
-      console.log(data);
-
-      this.setState({
-        currentUser: data,
-        loading: false,
-      });
-    }).catch((err) => {
-      console.log(err);
-
-      this.setState({
-        currentUser: {},
-        loading: false,
-      });
-    });
+    this.props.fetchAccount();
   }
 
-  fetchCurrentUser() {
-    return fetch(`${host}/api/v2/barong/resource/users/me`, {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/json' },
-    }).then((res) => {
-      if (res.ok) { return res.json(); }
-      throw new Error('Unauthorized!');
-    });
-  }
+  renderAppMessage = text => <Typography variant="h4" style={{padding: 40}}>{text}</Typography>
 
   render() {
-    const { classes } = this.props;
-    const { currentUser, loading } = this.state;
+    const { classes, account, isFetching, error } = this.props;
 
     return (
-      <Provider store={store}>
-        <MuiThemeProvider theme={muiTheme}>
-          <ConnectedRouter history={history}>
-            <div>
-              <NavBar user={currentUser} />
-              <div className={classes.toolbar} />
-              <div className={classes.root}>
-                <CssBaseline />
-                <Route
-                  path="/"
-                  exact
-                  render={() => (
-                    (!loading && currentUser) && (
-                      currentUser.email ? (
-                        <Typography variant="h4" style={{padding: 40}}>You are logged in!</Typography>
-                      ) : <Login />
-                    )
-                  )}
-                />
-                <Route
-                  path="/trade"
-                  exact
-                  render={() => (
-                    <Typography variant="h4" style={{padding: 40}}>Trades coming soon!</Typography>
-                  )}
-                />
-                <Route
-                  path="/wallets"
-                  render={() => <WalletsPage user={currentUser} />}
-                />
-              </div>
-            </div>
-          </ConnectedRouter>
-        </MuiThemeProvider>
-      </Provider>
+      <MuiThemeProvider theme={muiTheme}>
+        <div>
+          <NavBar user={account} />
+          <div className={classes.toolbar} />
+          <div className={classes.root}>
+            <CssBaseline />
+            <Route
+              path="/"
+              exact
+              render={() => (!isFetching && !error ? this.renderAppMessage('You are logged in!') : <Login />)}
+            />
+            <Route
+              path="/trade"
+              exact
+              render={() => this.renderAppMessage('Trades coming soon!')}
+            />
+            <Route
+              path="/wallets"
+              render={() => <WalletsPage user={account} />}
+            />
+          </div>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
 
-export default withStyles(styles)(Index);
+function mapStateToProps(state) {
+  return {
+    isFetching: state.account.isFetching,
+    account: state.account.data,
+    error: state.account.error,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchAccount: () => dispatch(fetchAccount())
+  }
+}
+
+
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(App);
