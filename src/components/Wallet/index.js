@@ -35,10 +35,9 @@ class WalletsPage extends Component {
     new Date(dateString).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
 
   renderHistoryBlock(title, history) {
-    const { classes, activeBalance } = this.props;
+    const { classes, activeWallet } = this.props;
 
-    const filteredHistory = history.filter(({currency}) => currency === activeBalance);
-    console.log(filteredHistory);
+    const filteredHistory = history.filter(({currency}) => currency === activeWallet);
 
     return (
       <>
@@ -103,28 +102,19 @@ class WalletsPage extends Component {
     const {
       classes,
       location,
-      walletAddresses,
-      activeBalance,
+      activeWallet,
       balances,
       user,
       depositHistory,
       withdrawHistory
     } = this.props;
 
-    console.log(walletAddresses);
-
-    // const activeBalanceData = balances.find(({currency}) => currency === activeBalance) || {
-    //   balance: 0,
-    //   locked: 0
-    // };
-
-    const activeBalanceData = {
-      currency: "btc",
+    const activeWalletData = balances[activeWallet] || {
       balance: 0,
       locked: 0
     };
 
-    const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium'; // eslint-disable-line
+    const activeWalletName = currencyData[activeWallet] && currencyData[activeWallet].name || 'Etherium'; // eslint-disable-line
 
     const tabClasses = {
       wrapper: classes.tabWrapper,
@@ -137,11 +127,11 @@ class WalletsPage extends Component {
         <SideBar/>
         <main className={classes.content}>
           <Hidden xsDown implementation="css">
-            <div style={{display: activeBalance ? 'none' : 'block'}}>
+            <div style={{display: activeWallet ? 'none' : 'block'}}>
               <Typography variant="h5" style={{padding: 40}}>Please select a wallet</Typography>
             </div>
           </Hidden>
-          <div style={{width: '100%', display: activeBalance ? 'block' : 'none'}}>
+          <div style={{width: '100%', display: activeWallet ? 'block' : 'none'}}>
             {!user.email && <Redirect to="/" />}
 
             <Hidden xsDown implementation="css">
@@ -152,7 +142,7 @@ class WalletsPage extends Component {
                 }}
                 gutterBottom
               >
-                {activeBalanceName}
+                {activeWalletName}
                 <Typography
                   variant="alignRight"
                   classes={{
@@ -160,14 +150,14 @@ class WalletsPage extends Component {
                   }}
                   // classes={{h4: classes.currencyName}}
                   gutterBottom
-                >Total Balance: <b>{toMinFixed(activeBalanceData.balance, 2)}</b></Typography>
+                >Total Balance: <b>{toMinFixed(activeWalletData.balance, 2)}</b></Typography>
                 <Typography
                   variant="alignRight"
                   classes={{
                     alignRight: classes.locked
                   }}
                   gutterBottom
-                >Locked: {toMinFixed(activeBalanceData.locked, 2)}</Typography>
+                >Locked: {toMinFixed(activeWalletData.locked, 2)}</Typography>
               </Typography>
               <Divider />
               <Tabs
@@ -240,7 +230,7 @@ class WalletsPage extends Component {
                         </Typography>
                         <fieldset className={classes.fieldset}>
                           <legend className={classes.legend}>Deposit by wallet adress</legend>
-                          {walletAddresses[activeBalance] || 'Not found'}
+                          {activeWalletData.address || 'Not found'}
                         </fieldset>
                         <Button variant="contained" color="primary" size="small" className={classes.btn}>
                           Copy
@@ -261,8 +251,8 @@ class WalletsPage extends Component {
                     <Grid container spacing={0}>
                       <Grid item xs={12} sm={5} className={classes.depositContainer}>
                         <fieldset className={`${classes.fieldset} ${classes.fieldsetWithdrawal}`}>
-                          <legend className={classes.legend}>{activeBalanceName} wallet adress</legend>
-                          {walletAddresses[activeBalance] || 'Not found'}
+                          <legend className={classes.legend}>{activeWalletName} wallet adress</legend>
+                          {activeWalletData.address || 'Not found'}
                         </fieldset>
                         <TextField
                           label="Withdrawal amount"
@@ -278,7 +268,7 @@ class WalletsPage extends Component {
                           gutterBottom
                         >
                           <span style={{width: '50%', display: 'inline-block'}}>Fee</span>
-                          <span style={{textAlign: 'right', width: '50%', display: 'inline-block'}}>1.004 {(activeBalance || 'etc').toUpperCase()}</span>
+                          <span style={{textAlign: 'right', width: '50%', display: 'inline-block'}}>1.004 {(activeWallet || 'etc').toUpperCase()}</span>
                         </Typography>
                         <Typography
                           variant="caption"
@@ -287,7 +277,7 @@ class WalletsPage extends Component {
                           gutterBottom
                         >
                           <span style={{width: '50%', display: 'inline-block'}}>Total Withdraw Amount</span>
-                          <span style={{textAlign: 'right', width: '50%', display: 'inline-block'}}>1.004 {(activeBalance || 'etc').toUpperCase()}</span>
+                          <span style={{textAlign: 'right', width: '50%', display: 'inline-block'}}>1.004 {(activeWallet || 'etc').toUpperCase()}</span>
                         </Typography>
                         <Button
                           variant="contained"
@@ -322,8 +312,7 @@ class WalletsPage extends Component {
 export default compose(
   connect(state => ({
     balances: state.wallet.list,
-    activeBalance: state.wallet.activeBalance,
-    walletAddresses: state.wallet.addresses,
+    activeWallet: state.wallet.activeWallet,
     depositHistory: state.wallet.history.deposits,
     withdrawHistory: state.wallet.history.withdraws
   }), actions),
