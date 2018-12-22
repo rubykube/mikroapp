@@ -8,7 +8,6 @@ import {
   SUCCESS_WALLET_ADDRESS
 } from '../constants/actions';
 
-
 export const fetchWalletData = () => {
   return { type: FETCH_WALLET_DATA };
 };
@@ -21,11 +20,9 @@ export const failWalletData = () => {
   return { type: FAIL_WALLET_DATA };
 };
 
-
 export const setActiveWallet = id => {
   return { type: SET_ACTIVE_WALLET, payload: { id } };
 };
-
 
 export const fetchWalletAddress = id => {
   return { type: FETCH_WALLET_ADDRESS, payload: { id } };

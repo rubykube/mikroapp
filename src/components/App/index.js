@@ -7,16 +7,16 @@ import { withStyles } from '@material-ui/core/styles';
 import NavBar from '../common/NavBar';
 import Login from '../Login';
 import Typography from '@material-ui/core/Typography';
-import WalletsPage from '../Wallet/WalletsPage';
+import WalletsPage from '../Wallet';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import './styles.css';
 import { styles, muiTheme } from './styles';
-import { fetchAccount } from '../../actions/account';
+import actions from '../../actions';
 
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchAccount();
+    this.props.actions.fetchAccount();
   }
 
   renderAppMessage = text => <Typography variant="h4" style={{padding: 40}}>{text}</Typography>
@@ -52,22 +52,11 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    isFetching: state.account.isFetching,
-    account: state.account.data,
-    error: state.account.error,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchAccount: () => dispatch(fetchAccount())
-  }
-}
-
-
 export default compose(
   withStyles(styles),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(state => ({
+    isFetching: state.account.isFetching,
+    account: state.account.data,
+    error: state.account.error
+  }), actions)
 )(App);
