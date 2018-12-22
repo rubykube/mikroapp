@@ -14,12 +14,13 @@ const initState = {
     deposits: [],
     withdraws: []
   },
+  addresses: {},
   activeWallet: null,
   isFetching: false,
   error: false,
 };
 
-function walletReducer(state=initState, action) {
+function walletReducer(state = initState, action) {
   switch (action.type) {
     case FETCH_WALLET_DATA: {
       return { ...state, isFetching: true };

@@ -121,9 +121,9 @@ const getCurrencies = () => {
           name: 'XRP'
         }
       };
-    })
+    });
 };
 
 export const getWalletData = async () => {
-  return await Promise.all([getBalances(), getCurrencies()])
+  return await Promise.all([getBalances(), getCurrencies()]);
 };

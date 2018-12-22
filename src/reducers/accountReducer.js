@@ -17,7 +17,7 @@ const initState = {
   error: false,
 };
 
-function accountReducer(state=initState, action) {
+function accountReducer(state = initState, action) {
   switch (action.type) {
     case FETCH_ACCOUNT: {
       return { ...state, isFetching: true };

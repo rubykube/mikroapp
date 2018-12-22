@@ -9,6 +9,7 @@ import { push } from 'connected-react-router';
 function* fetchWallet() {
   try {
     const [balances, currencies] = yield call(getWalletData);
+
     const walletData = balances.reduce((prev, cur) => {
       return {
         ...prev,
@@ -18,7 +19,7 @@ function* fetchWallet() {
           locked: +cur.locked,
           address: null,
         }
-      }
+      };
     }, {});
 
     yield put(actions.successWalletData(walletData));
@@ -36,6 +37,7 @@ export function* fetchWalletSaga() {
 function* setActiveWallet({ payload: { id } }) {
   yield put(push({ search: `?currency=${id}` }));
   const wallets = yield select(state => state.wallet.list);
+
   if (!wallets[id].address) {
     yield put(actions.fetchWalletAddress(id));
   }
@@ -45,16 +47,18 @@ export function* setActiveWalletSaga() {
   yield takeEvery(types.SET_ACTIVE_WALLET, setActiveWallet);
 }
 
-
 // Saga sets wallet address
 function* fetchWalletAddress({ payload: { id } }) {
   const wallets = yield select(state => state.wallet.list);
+
   try {
     const { address } = yield call(getWalletAddress, id);
     wallets[id].address = address;
+
     yield put(actions.successWalletAddress(wallets));
   } catch (e) {
     wallets[id].address = null;
+
     yield put(actions.failWalletData(wallets));
   }
 }
