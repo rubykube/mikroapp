@@ -9,7 +9,7 @@ export const muiTheme = createMuiTheme({
       main: '#fff'
     },
     action: {
-      selected: '#4696ec1f'
+      selected: '#ffffff'
     }
   },
 });
