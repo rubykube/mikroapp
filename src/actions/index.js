@@ -1,11 +1,11 @@
 import { bindActionCreators } from 'redux';
 import * as accountActions from './account';
 import * as walletActions from './wallet';
-import * as balancesActions from './balances';
+import * as historyActions from './history';
 
 export default dispatch => ({
   actions: bindActionCreators({
-    ...balancesActions,
+    ...historyActions,
     ...accountActions,
     ...walletActions
   }, dispatch)

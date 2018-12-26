@@ -9,6 +9,7 @@
     "connected-react-router": "^6.0.0",
     "cryptocurrency-icons": "^0.9.3",
     "history": "^4.7.2",
+    "moment": "^2.23.0",
     "qrcode.react": "^0.8.0",
     "query-string": "^6.2.0",
     "react": "^16.6.3",

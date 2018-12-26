@@ -12,25 +12,6 @@ import { fetchWalletAddress, setActiveWallet, fetchWalletData } from '../../../a
 
 class SideBar extends Component {
   componentDidMount() {
-    // fetch(`${host}/api/v2/peatio/account/deposits`, {//TODO move to history reducer
-    //   credentials: 'same-origin',
-    //   headers: { Accept: 'application/json' },
-    // }).then((res) => {
-    //   if (res.ok) { return res.json(); }
-    //   throw new Error('Unauthorized!');
-    // }).then(data => {
-    //   this.props.actions.setDepositsHistory(data);
-    // });
-    //
-    // fetch(`${host}/api/v2/peatio/account/withdraws`, {
-    //   credentials: 'same-origin',
-    //   headers: { Accept: 'application/json' },
-    // }).then((res) => {
-    //   if (res.ok) { return res.json(); }
-    //   throw new Error('Unauthorized!');
-    // }).then(data => {
-    //   this.props.actions.setWithdrawsHistory(data);
-    // });
     this.props.fetchWalletData();
   }
 

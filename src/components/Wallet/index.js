@@ -14,16 +14,9 @@ import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-// import TablePagination from '@material-ui/core/TablePagination';
 import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
-import FilterListIcon from '@material-ui/icons/FilterList';
 
+import HistoryContainer from './HistoryContainer';
 import SideBar from './SideBar';
 import actions from '../../actions/index';
 import { currencyData, toMinFixed } from '../../utils/index';
@@ -31,82 +24,13 @@ import { currencyData, toMinFixed } from '../../utils/index';
 import styles from './styles';
 
 class WalletsPage extends Component {
-  static formatDate = dateString =>
-    new Date(dateString).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
-
-  renderHistoryBlock(title, history) {
-    const { classes, activeWallet } = this.props;
-
-    const filteredHistory = history.filter(({currency}) => currency === activeWallet);
-
-    return (
-      <>
-        <Grid container>
-          <Grid item xs={11}>
-            <Typography
-              variant="h4"
-              classes={{h4: classes.allActionText}}
-              gutterBottom
-            >{title}</Typography>
-          </Grid>
-          <Grid item xs={1}>
-            <IconButton classes={{root: classes.filterIcon}}>
-              <FilterListIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="none">Date</TableCell>
-              <TableCell padding="none" numeric>Status</TableCell>
-              <TableCell padding="none" numeric>Fee</TableCell>
-              <TableCell padding="none" numeric>Amount</TableCell>
-              <TableCell padding="none" numeric>Balance</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {
-              filteredHistory.map((data, index) => (
-                <TableRow key={index}>
-                  <TableCell padding="none">{WalletsPage.formatDate(data.created_at)}</TableCell>
-                  <TableCell padding="none" numeric>{data.state}</TableCell>
-                  <TableCell padding="none" numeric>{data.fee}</TableCell>
-                  <TableCell padding="none" numeric>{data.amount}</TableCell>
-                  <TableCell padding="none" numeric>TODO</TableCell>
-                </TableRow>
-              ))
-            }
-          </TableBody>
-        </Table>
-         {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={10}
-          rowsPerPage={10}
-          page={10}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
-        /> */}
-      </>
-    );
-  }
-
   render() {
     const {
       classes,
       location,
       activeWallet,
       balances,
-      user,
-      depositHistory,
-      withdrawHistory
+      user
     } = this.props;
 
     const activeWalletData = balances[activeWallet] || {
@@ -243,7 +167,7 @@ class WalletsPage extends Component {
                       </Grid>
                       <Grid item xs={12}>
                         <div style={{height: 20}} />
-                        {this.renderHistoryBlock('Deposit history', depositHistory)}
+                        <HistoryContainer/>
                       </Grid>
                     </Grid>
                   ),
@@ -291,7 +215,7 @@ class WalletsPage extends Component {
                       </Grid>
                       <Grid item xs={12}>
                         <div style={{height: 20}} />
-                        {this.renderHistoryBlock('Withdraw history', withdrawHistory)}
+                        <HistoryContainer/>
                       </Grid>
                     </Grid>
                   )
@@ -312,9 +236,7 @@ class WalletsPage extends Component {
 export default compose(
   connect(state => ({
     balances: state.wallet.list,
-    activeWallet: state.wallet.activeWallet,
-    depositHistory: state.wallet.history.deposits,
-    withdrawHistory: state.wallet.history.withdraws
+    activeWallet: state.wallet.activeWallet
   }), actions),
   withRouter,
   withStyles(styles)

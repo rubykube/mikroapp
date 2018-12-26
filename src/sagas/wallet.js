@@ -3,7 +3,7 @@ import * as actions from '../actions/wallet';
 import * as types from '../constants/actions';
 import { getWalletData, getWalletAddress } from '../api/wallet';
 import { push } from 'connected-react-router';
-
+import { fetchHistory } from '../actions/history';
 
 // Saga sets available wallets
 function* fetchWallet() {
@@ -41,6 +41,8 @@ function* setActiveWallet({ payload: { id } }) {
   if (!wallets[id].address) {
     yield put(actions.fetchWalletAddress(id));
   }
+
+  yield put(fetchHistory('deposits'));//deposits fetch first by default
 }
 
 export function* setActiveWalletSaga() {
@@ -59,7 +61,7 @@ function* fetchWalletAddress({ payload: { id } }) {
   } catch (e) {
     wallets[id].address = null;
 
-    yield put(actions.failWalletData(wallets));
+    yield put(actions.failWalletAddress(wallets));
   }
 }
 

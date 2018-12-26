@@ -10,11 +10,6 @@ import {
 
 const initState = {
   list: {},
-  history: {
-    deposits: [],
-    withdraws: []
-  },
-  addresses: {},
   activeWallet: null,
   isFetching: false,
   error: false,
@@ -39,24 +34,6 @@ function walletReducer(state = initState, action) {
     }
     case FAIL_WALLET_ADDRESS: {
       return { ...state, list: action.payload.list };
-    }
-    case 'balances/SET_DEPOSITS_HISTORY': {
-      return {
-        ...state,
-        history: {
-          ...state.history,
-          deposits: action.payload.history
-        }
-      };
-    }
-    case 'balances/SET_WITHDRAWS_HISTORY': {
-      return {
-        ...state,
-        history: {
-          ...state.history,
-          withdraws: action.payload.history
-        }
-      };
     }
     default: {
       return state;
