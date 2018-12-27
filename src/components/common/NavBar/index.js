@@ -167,6 +167,7 @@ export default compose(
   withRouter,
   withStyles(styles),
   connect(state => ({
+    user: state.account.data,
     // balances: state.balances.list,
     activeBalance: state.wallet.activeBalance
   })),

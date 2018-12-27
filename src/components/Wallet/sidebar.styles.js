@@ -1,4 +1,4 @@
-const styles = theme => ({
+const sidebarStyles = theme => ({
   drawer: {
     flexShrink: 0,
     width: 400
@@ -54,4 +54,4 @@ const styles = theme => ({
   }
 });
 
-export default styles;
+export default sidebarStyles;

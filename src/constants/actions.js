@@ -13,3 +13,9 @@ export const FAIL_WALLET_ADDRESS = 'wallet/FAIL_WALLET_ADDRESS';
 export const FETCH_HISTORY = 'history/FETCH_HISTORY';
 export const SUCCESS_HISTORY = 'history/SUCCESS_HISTORY';
 export const FAIL_HISTORY = 'history/FAIL_HISTORY';
+
+export const FETCH_SUBMIT_WITHDRAW = 'withdraw/FETCH_SUBMIT_WITHDRAW';
+export const SUCCESS_SUBMIT_WITHDRAW = 'withdraw/SUCCESS_SUBMIT_WITHDRAW';
+export const FAIL_SUBMIT_WITHDRAW = 'withdraw/FAIL_SUBMIT_WITHDRAW';
+export const HANDLE_CHANGE_WITHDRAW = 'withdraw/HANDLE_CHANGE_WITHDRAW';
+export const CLEAR_WITHDRAW_FORM = 'withdraw/CLEAR_WITHDRAW_FORM';

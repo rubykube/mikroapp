@@ -3,24 +3,20 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import compose from "recompose/compose";
 import { withStyles } from "@material-ui/core";
-import SideBarList from './SideBarList';
+import SideBarList from '../../components/Wallet/SideBarList';
 import Hidden from "@material-ui/core/Hidden/Hidden";
 import Drawer from "@material-ui/core/Drawer/Drawer";
-import styles from './styles';
-import { fetchWalletAddress, setActiveWallet, fetchWalletData } from '../../../actions/wallet';
+import sidebarStyles from '../../components/Wallet/sidebar.styles';
+import { fetchWalletAddress, setActiveWallet } from '../../actions/wallet';
 
 
 class SideBar extends Component {
-  componentDidMount() {
-    this.props.fetchWalletData();
-  }
-
   onClickWallet = (id, data) => () => {
     this.props.setActiveWallet(id);
     if (!data.address) {
       this.props.fetchWalletAddress(id);
     }
-  }
+  };
 
   render() {
     const { classes, wallets, activeWallet } = this.props;
@@ -31,7 +27,9 @@ class SideBar extends Component {
       <>
         <Hidden smUp implementation="js">
           <div style={{width: '100%', display: activeWallet ? 'none' : 'block'}}>
-            <SideBarList onClickWallet={this.onClickWallet}/>
+            <SideBarList
+              onClickWallet={this.onClickWallet}
+            />
           </div>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -42,7 +40,11 @@ class SideBar extends Component {
             classes={{ paper: classes.drawerPaper }}
           >
             <div className={classes.toolbar} />
-            <SideBarList onClickWallet={this.onClickWallet}/>
+            <SideBarList
+              wallets={wallets}
+              activeWallet={activeWallet}
+              onClickWallet={this.onClickWallet}
+            />
           </Drawer>
         </Hidden>
       </>
@@ -59,7 +61,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchWalletData: () => dispatch(fetchWalletData()),
     setActiveWallet: id => dispatch(setActiveWallet(id)),
     fetchWalletAddress: id => dispatch(fetchWalletAddress(id)),
   }
@@ -68,5 +69,5 @@ function mapDispatchToProps(dispatch) {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter,
-  withStyles(styles)
+  withStyles(sidebarStyles)
 )(SideBar);

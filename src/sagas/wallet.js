@@ -11,10 +11,14 @@ function* fetchWallet() {
     const [balances, currencies] = yield call(getWalletData);
 
     const walletData = balances.reduce((prev, cur) => {
+      if (!currencies[cur.currency]) {
+        return prev
+      }
       return {
         ...prev,
         [cur.currency]: {
           ...currencies[cur.currency],
+          withdraw_fee: parseFloat(currencies[cur.currency].withdraw_fee),
           balance: +cur.balance,
           locked: +cur.locked,
           address: null,
@@ -35,7 +39,7 @@ export function* fetchWalletSaga() {
 
 // Saga sets active wallet
 function* setActiveWallet({ payload: { id } }) {
-  yield put(push({ search: `?currency=${id}` }));
+  yield put(push(`/wallets/deposit?currency=${id}`));
   const wallets = yield select(state => state.wallet.list);
 
   if (!wallets[id].address) {

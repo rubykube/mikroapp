@@ -4,8 +4,8 @@ import compose from 'recompose/compose';
 import { Route } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import NavBar from '../common/NavBar';
-import Login from '../Login';
+import NavBar from '../../components/common/NavBar/index';
+import Login from '../../components/Login/index';
 import Typography from '@material-ui/core/Typography';
 import WalletsPage from '../Wallet';
 import { MuiThemeProvider } from '@material-ui/core/styles';
@@ -43,7 +43,7 @@ class App extends Component {
             />
             <Route
               path="/wallets"
-              render={() => <WalletsPage user={account} />}
+              render={() => <WalletsPage />}
             />
           </div>
         </div>
@@ -56,7 +56,6 @@ export default compose(
   withStyles(styles),
   connect(state => ({
     isFetching: state.account.isFetching,
-    account: state.account.data,
     error: state.account.error
   }), actions)
 )(App);

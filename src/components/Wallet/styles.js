@@ -57,7 +57,7 @@ export default theme => ({
     minHeight: 60
   },
   btn: {
-    width: 'calc(100% - 20px)',
+    width: 'calc(100%)',
     boxShadow: 'none',
     [theme.breakpoints.down('xs')]: {
       width: '100%'

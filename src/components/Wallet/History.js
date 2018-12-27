@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import compose from 'recompose/compose';
 import { withStyles } from "@material-ui/core";
-import styles from '../styles';
+import styles from './styles';
 import Grid from "@material-ui/core/Grid/Grid";
 import Typography from "@material-ui/core/Typography/Typography";
 import Table from "@material-ui/core/Table/Table";
@@ -11,7 +11,7 @@ import TableCell from "@material-ui/core/TableCell/TableCell";
 import TableBody from "@material-ui/core/TableBody/TableBody";
 
 
-const History = ({ history=[], classes }) => {
+const HistoryView = ({ history=[], classes }) => {
   return (
     <Fragment>
       <Grid container>
@@ -50,4 +50,4 @@ const History = ({ history=[], classes }) => {
 
 export default compose(
   withStyles(styles)
-)(History);
+)(HistoryView);
