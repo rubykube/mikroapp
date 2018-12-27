@@ -1,5 +1,4 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
@@ -16,7 +15,7 @@ const composeEnhancers =
 
 const sagaMiddleware = createSagaMiddleware();
 
-let middlewares = [sagaMiddleware, thunk, routerMiddleware(history)];//thunk should be removed
+let middlewares = [sagaMiddleware, routerMiddleware(history)];
 
 if (process.env.NODE_ENV !== 'production') {
   middlewares = [...middlewares, logger];

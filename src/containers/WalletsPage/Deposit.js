@@ -22,5 +22,4 @@ export default  connect(
     account: state.account.data,
     wallets: state.wallet.list,
     activeWallet: state.wallet.activeWallet
-  }))
-(Deposit);
+  }))(Deposit);

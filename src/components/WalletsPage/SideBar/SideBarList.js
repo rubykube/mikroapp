@@ -64,6 +64,7 @@ const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
                   >
                     <img
                       src={require('../../../assets/lock.svg')}
+                      alt="locked"
                       className={classes.lockedIcon}
                     />{toMinFixed(data.locked, 5)}
                   </Typography>
