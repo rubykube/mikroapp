@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import NavBar from '../../components/common/NavBar/index';
 import Login from '../../components/Login/index';
 import Typography from '@material-ui/core/Typography';
-import WalletsPage from '../Wallet';
+import WalletsPage from '../WalletsPage';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import './styles.css';
 import { styles, muiTheme } from './styles';

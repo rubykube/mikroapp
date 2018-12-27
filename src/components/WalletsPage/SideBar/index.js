@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
-import compose from "recompose/compose";
-import { withStyles } from "@material-ui/core";
-import SideBarList from '../../components/Wallet/SideBarList';
-import Hidden from "@material-ui/core/Hidden/Hidden";
-import Drawer from "@material-ui/core/Drawer/Drawer";
-import sidebarStyles from '../../components/Wallet/sidebar.styles';
-import { fetchWalletAddress, setActiveWallet } from '../../actions/wallet';
-
+import { withStyles } from '@material-ui/core';
+import SideBarList from './SideBarList';
+import Hidden from '@material-ui/core/Hidden/Hidden';
+import Drawer from '@material-ui/core/Drawer/Drawer';
+import styles from './styles';
 
 class SideBar extends Component {
   onClickWallet = (id, data) => () => {
@@ -21,13 +16,12 @@ class SideBar extends Component {
   render() {
     const { classes, wallets, activeWallet } = this.props;
 
-    if (Object.values(wallets).length === 0) return null;
-
     return (// TODO resolve twice api call
       <>
         <Hidden smUp implementation="js">
           <div style={{width: '100%', display: activeWallet ? 'none' : 'block'}}>
             <SideBarList
+              wallets={wallets}
               onClickWallet={this.onClickWallet}
             />
           </div>
@@ -52,22 +46,4 @@ class SideBar extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    wallets: state.wallet.list,
-    activeWallet: state.wallet.activeWallet,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setActiveWallet: id => dispatch(setActiveWallet(id)),
-    fetchWalletAddress: id => dispatch(fetchWalletAddress(id)),
-  }
-}
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withRouter,
-  withStyles(sidebarStyles)
-)(SideBar);
+export default withStyles(styles)(SideBar);

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import { withStyles } from "@material-ui/core";
-import styles from "../../components/Wallet/styles";
+import { withStyles } from '@material-ui/core';
+import styles from '../../components/WalletsPage/styles';
 import actions from '../../actions/index';
-import HistoryView from '../../components/Wallet/History';
+import HistoryView from '../../components/WalletsPage/History';
 
 class History extends Component {
   componentDidMount() {
@@ -22,7 +22,6 @@ class History extends Component {
     return <HistoryView history={this.filterHistory(history)}/>;
   }
 }
-
 
 export default compose(
   connect(state => ({

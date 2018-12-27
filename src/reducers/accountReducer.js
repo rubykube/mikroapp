@@ -1,6 +1,5 @@
 import { FETCH_ACCOUNT, SUCCESS_ACCOUNT, FAIL_ACCOUNT } from '../constants/actions';
 
-
 const initState = {
   data: {
     created_at: '',

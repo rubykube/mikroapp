@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 import {
   FETCH_WALLET_DATA,
   SUCCESS_WALLET_DATA,
@@ -34,6 +36,12 @@ function walletReducer(state = initState, action) {
     }
     case FAIL_WALLET_ADDRESS: {
       return { ...state, list: action.payload.list };
+    }
+    case '@@router/LOCATION_CHANGE': {
+      return {
+        ...state,
+        activeWallet: queryString.parse(action.payload.location.search).currency
+      };
     }
     default: {
       return state;

@@ -67,7 +67,7 @@ class NavBar extends Component {
   }
 
   render() {
-    const {classes, location, user, activeBalance} = this.props;
+    const {classes, location, user, activeWallet} = this.props;
     const {anchorEl, menuAnchorEl} = this.state;
 
     const menuButton = (
@@ -82,7 +82,7 @@ class NavBar extends Component {
       </IconButton>
     );
 
-    // const activeBalanceName = currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium';
+    // const activeWalletName = currencyData[activeWallet] && currencyData[activeWallet].name || 'Etherium';
 
     return (
       <div>
@@ -92,7 +92,7 @@ class NavBar extends Component {
 
             <Hidden smUp implementation="css">
               {
-                (location.pathname.indexOf('/wallet') >= 0) && activeBalance ? (
+                (location.pathname.indexOf('/wallet') >= 0) && activeWallet ? (
                   <IconButton
                     color="inherit"
                     onClick={this.goBack}
@@ -108,8 +108,8 @@ class NavBar extends Component {
             <Hidden smUp implementation="css">
               <Typography variant="h6" color="inherit">
                 {getMatch({
-                  '/wallets': activeBalance ? (
-                    currencyData && currencyData[activeBalance] && currencyData[activeBalance].name || 'Etherium' // eslint-disable-line
+                  '/wallets': activeWallet ? (
+                    currencyData && currencyData[activeWallet] && currencyData[activeWallet].name || 'Etherium' // eslint-disable-line
                   ) : 'Wallets'
                 }, location.pathname, true)}
               </Typography>
@@ -169,6 +169,6 @@ export default compose(
   connect(state => ({
     user: state.account.data,
     // balances: state.balances.list,
-    activeBalance: state.wallet.activeBalance
+    activeWallet: state.wallet.activeWallet
   })),
 )(NavBar);

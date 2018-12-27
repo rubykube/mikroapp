@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import compose from "recompose/compose";
-import WithdrawView from "../../components/Wallet/Withdraw";
+import WithdrawView from "../../components/WalletsPage/Withdraw";
 import History from "./History";
 import actions from '../../actions';
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DepositView from "../../components/Wallet/Deposit";
+import DepositView from "../../components/WalletsPage/Deposit";
 import History from './History';
-
 
 class Deposit extends Component {
   render() {
@@ -25,4 +24,3 @@ export default  connect(
     activeWallet: state.wallet.activeWallet
   }))
 (Deposit);
-

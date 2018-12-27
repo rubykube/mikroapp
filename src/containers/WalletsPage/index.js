@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import compose from 'recompose/compose';
 import { connect } from 'react-redux';
-import SideBar from './Sidebar';
-import WalletView from '../../components/Wallet'
+import SideBarContainer from './SideBarContainer';
+import WalletView from '../../components/WalletsPage'
 import actions from '../../actions';
 
 class WalletsPage extends Component {
@@ -14,11 +14,12 @@ class WalletsPage extends Component {
   render() {
     const { location, activeWallet, wallets } = this.props;
 
-    if (!Object.keys(wallets).length || !activeWallet) return null;
+    if (!Object.keys(wallets).length) return null;
+    else if (!activeWallet) return <SideBarContainer/>;
 
     return (
       <>
-        <SideBar/>
+        <SideBarContainer/>
         <WalletView location={location} activeWallet={activeWallet} wallets={wallets}/>
       </>
     );

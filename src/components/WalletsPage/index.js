@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import Hidden from '@material-ui/core/Hidden';
-import Deposit from '../../containers/Wallet/Deposit';
-import Withdraw from '../../containers/Wallet/Withdraw';
+import Deposit from '../../containers/WalletsPage/Deposit';
+import Withdraw from '../../containers/WalletsPage/Withdraw';
 import { currencyData, toMinFixed } from '../../utils/index';
 
 import styles from './styles';

@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import compose from 'recompose/compose';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar/Avatar';
@@ -9,11 +8,12 @@ import Typography from '@material-ui/core/Typography/Typography';
 import List from '@material-ui/core/List/List';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
-import sidebarStyles from './sidebar.styles';
-import { toMinFixed } from '../../utils/index';
+import styles from './styles';
+import { toMinFixed } from '../../../utils/index';
 
+const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
+  if (!wallets) return null;
 
-const SideBar = ({ classes, wallets, activeWallet, onClickWallet }) => {
   // TODO: Get rid of multiple "currency === activeWallet && "
   return (
     <List>
@@ -63,7 +63,7 @@ const SideBar = ({ classes, wallets, activeWallet, onClickWallet }) => {
                     color="textPrimary"
                   >
                     <img
-                      src={require('../../assets/lock.svg')}
+                      src={require('../../../assets/lock.svg')}
                       className={classes.lockedIcon}
                     />{toMinFixed(data.locked, 5)}
                   </Typography>
@@ -78,4 +78,4 @@ const SideBar = ({ classes, wallets, activeWallet, onClickWallet }) => {
 };
 
 
-export default compose(withStyles(sidebarStyles))(SideBar);
+export default withStyles(styles)(SideBarList);
