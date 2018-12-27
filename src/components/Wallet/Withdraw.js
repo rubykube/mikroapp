@@ -1,11 +1,11 @@
 import React  from 'react';
-import Grid from "@material-ui/core/Grid/Grid";
-import TextField from "@material-ui/core/TextField/TextField";
-import Typography from "@material-ui/core/Typography/Typography";
-import Button from "@material-ui/core/Button/Button";
-import compose from "recompose/compose";
-import { withStyles } from "@material-ui/core";
-import styles from "./styles";
+import Grid from '@material-ui/core/Grid/Grid';
+import TextField from '@material-ui/core/TextField/TextField';
+import Typography from '@material-ui/core/Typography/Typography';
+import Button from '@material-ui/core/Button/Button';
+import compose from 'recompose/compose';
+import { withStyles } from '@material-ui/core';
+import styles from './styles';
 
 
 const WithdrawView = ({ classes, children, currency, onChange, rid, amount, otp, submitting, onClick }) => {

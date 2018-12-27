@@ -19,7 +19,7 @@ const sagaMiddleware = createSagaMiddleware();
 let middlewares = [sagaMiddleware, thunk, routerMiddleware(history)];//thunk should be removed
 
 if (process.env.NODE_ENV !== 'production') {
-  middlewares = [...middlewares, logger]
+  middlewares = [...middlewares, logger];
 }
 
 export const store = createStore(

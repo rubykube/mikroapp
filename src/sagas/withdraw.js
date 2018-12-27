@@ -1,5 +1,5 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
-import { delay } from 'redux-saga'
+import { delay } from 'redux-saga';
 import * as actions from '../actions/withdraw';
 import * as types from '../constants/actions';
 import { postNewWithdraws } from '../api/withdraw';
@@ -19,7 +19,7 @@ function* fetchSubmitWithdraw() {
 
 
     yield put(actions.successSubmitWithdraw());
-    yield call(delay, 1000)
+    yield call(delay, 1000);
     yield put(actions.clearWithdrawForm());
   } catch (e) {
     yield put(actions.failSubmitWithdraw('Some Error'));//TODO add err handling

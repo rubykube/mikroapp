@@ -12,7 +12,7 @@ function* fetchWallet() {
 
     const walletData = balances.reduce((prev, cur) => {
       if (!currencies[cur.currency]) {
-        return prev
+        return prev;
       }
       return {
         ...prev,

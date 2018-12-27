@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react';
 import compose from 'recompose/compose';
-import { withStyles } from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 import styles from './styles';
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
-import Table from "@material-ui/core/Table/Table";
-import TableHead from "@material-ui/core/TableHead/TableHead";
-import TableRow from "@material-ui/core/TableRow/TableRow";
-import TableCell from "@material-ui/core/TableCell/TableCell";
-import TableBody from "@material-ui/core/TableBody/TableBody";
-
+import Grid from '@material-ui/core/Grid/Grid';
+import Typography from '@material-ui/core/Typography/Typography';
+import Table from '@material-ui/core/Table/Table';
+import TableHead from '@material-ui/core/TableHead/TableHead';
+import TableRow from '@material-ui/core/TableRow/TableRow';
+import TableCell from '@material-ui/core/TableCell/TableCell';
+import TableBody from '@material-ui/core/TableBody/TableBody';
 
 const HistoryView = ({ history=[], classes }) => {
   return (
@@ -31,7 +30,8 @@ const HistoryView = ({ history=[], classes }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          { history.map((data, index) => (
+          {
+            history.map((data, index) => (
               <TableRow key={index}>
                 <TableCell padding="none">{data.created_at}</TableCell>
                 <TableCell padding="none" numeric>{data.state}</TableCell>
@@ -46,7 +46,6 @@ const HistoryView = ({ history=[], classes }) => {
     </Fragment>
   );
 };
-
 
 export default compose(
   withStyles(styles)

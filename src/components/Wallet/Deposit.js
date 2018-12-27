@@ -1,11 +1,11 @@
 import React from 'react';
 import compose from 'recompose/compose';
-import { withStyles } from "@material-ui/core";
+import { withStyles } from '@material-ui/core';
 import styles from './styles';
-import Grid from "@material-ui/core/Grid/Grid";
-import Typography from "@material-ui/core/Typography/Typography";
-import Button from "@material-ui/core/Button/Button";
-import QRCode from "qrcode.react";
+import Grid from '@material-ui/core/Grid/Grid';
+import Typography from '@material-ui/core/Typography/Typography';
+import Button from '@material-ui/core/Button/Button';
+import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
