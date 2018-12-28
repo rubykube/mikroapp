@@ -75,14 +75,14 @@ class Withdraw extends Component {
           <Typography variant="caption" classes={{caption: classes.caption}} gutterBottom>
             <span style={{width: '50%', display: 'inline-block'}}>Fee</span>
             <span style={{textAlign: 'right', width: '50%', display: 'inline-block'}}>
-            {`${currency.withdraw_fee} ${currency.id.toUpperCase()}`}
-          </span>
+              {`${currency.withdraw_fee} ${currency.id.toUpperCase()}`}
+            </span>
           </Typography>
           <Typography variant="caption" classes={{caption: classes.caption}} gutterBottom>
             <span style={{width: '50%', display: 'inline-block'}}>Total Withdraw Amount</span>
             <span style={{textAlign: 'right', width: '50%', display: 'inline-block'}}>
-            {`${currency.withdraw_fee + +amount} ${currency.id.toUpperCase()}`}
-          </span>
+              {`${currency.withdraw_fee + +amount} ${currency.id.toUpperCase()}`}
+            </span>
           </Typography>
           <Button
             variant="contained"

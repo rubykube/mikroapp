@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import VerticalAlignBottomIcon from '@material-ui/icons/VerticalAlignBottom';
 import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import Hidden from '@material-ui/core/Hidden';
-import { toMinFixed } from '../../utils/index';
 
 const styles = theme => ({
   currencyName: {
@@ -18,15 +17,11 @@ const styles = theme => ({
   },
   totalBalance: {
     fontSize: '10pt',
-    position: 'absolute',
-    right: 10,
-    top: 15
+    paddingLeft: 20
   },
   locked: {
     fontSize: '10pt',
-    position: 'absolute',
-    right: 10,
-    bottom: -5
+    paddingLeft: 20
   },
   inner: {
     padding: 20
@@ -69,16 +64,6 @@ const WalletLayout = ({ classes, location, activeWallet, wallets, children }) =>
         </Hidden>
         <div style={{width: '100%', display: activeWallet ? 'block' : 'none'}}>
           <Hidden xsDown implementation="css">
-            <Typography variant="h4" classes={{ h4: classes.currencyName }} gutterBottom>
-              {wallets[activeWallet].name}
-              <Typography variant="alignRight" classes={{ alignRight: classes.totalBalance }} gutterBottom>
-                Total Balance: <b>{toMinFixed(wallets[activeWallet].balance, 2)}</b>
-              </Typography>
-              <Typography variant="alignRight" classes={{ alignRight: classes.locked }} gutterBottom>
-                Locked: {toMinFixed(wallets[activeWallet].locked, 2)}
-              </Typography>
-            </Typography>
-            <Divider />
             <Tabs
               value={Math.max(['/wallets/deposit', '/wallets/withdrawal'].indexOf(location.pathname), 0)}
               indicatorColor="primary"

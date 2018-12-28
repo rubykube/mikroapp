@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button/Button';
 import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
+import { toMinFixed } from '../../utils/index';
+
 
 const styles = theme => ({
   fieldset: {
@@ -28,11 +30,13 @@ const styles = theme => ({
     color: 'gray'
   },
   description: {
-    fontSize: '10pt',
+    width: 'calc(100% - 20px)',
+    fontSize: '14pt',
+    paddingTop: 20,
     color: '#666666'
   },
   btn: {
-    width: 'calc(100%)',
+    width: 'calc(100% - 20px)',
     boxShadow: 'none',
     [theme.breakpoints.down('xs')]: {
       width: '100%'
@@ -47,20 +51,24 @@ const styles = theme => ({
 });
 
 
-const DepositView = ({ classes, address }) => {
+const DepositView = ({ classes, wallet: { name, address, balance, locked } }) => {
   return (
     <Grid container spacing={0}>
-      <Grid item xs={12} sm={3} className={classes.depositContainer}>
+      <Grid item xs={12} sm={5} className={classes.depositContainer}>
+        <Typography variant="h4" classes={{ h4: classes.currencyName }} gutterBottom>
+          {name}
+        </Typography>
+        <Typography variant="subheading" classes={{ subheading: classes.totalBalance }} gutterBottom>
+          Total Balance: <b>{toMinFixed(balance, 2)}</b>,
+          Locked: {toMinFixed(locked, 2)}
+        </Typography>
         <Typography
           variant="paragraph"
           paragraph={true}
           classes={{paragraph: classes.description}}
           gutterBottom
         >
-          Please submit a deposit payment<br />
-          using one of the following options<br />
-          Your deposit will be reflected in your<br />
-          account after the confirmation
+          Please submit a deposit payment using one of the following options Your deposit will be reflected in your account after the confirmation.
         </Typography>
         <fieldset className={classes.fieldset}>
           <legend className={classes.legend}>Deposit by wallet adress</legend>
@@ -78,9 +86,9 @@ const DepositView = ({ classes, address }) => {
           </Button>
         </CopyToClipboard>
       </Grid>
-      <Grid item xs={12} sm={9}>
-        <div style={{marginTop: 10}}>
-          {address && <QRCode fgColor="#333333" size={200} className={classes.qrCode} value={address} />}
+      <Grid item xs={12} sm={7}>
+        <div style={{margin: '10px auto', width: 'fit-content'}}>
+          {address && <QRCode fgColor="#333333" size={350} className={classes.qrCode} value={address} />}
         </div>
       </Grid>
       <Grid item xs={12}><div style={{height: 20}} /></Grid>

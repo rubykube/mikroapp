@@ -53,26 +53,22 @@ class WalletPage extends Component {
         <WalletLayout location={location} activeWallet={activeWallet} wallets={wallets}>
           <Switch>
             <Route
-              path={'/wallets/deposit'}
-              render={() => {
-               return <Deposit address={wallets[activeWallet].address}/>;
-              }}
+              path="/wallets/deposit"
+              render={() => <Deposit wallet={wallets[activeWallet]}/>}
             />
             <Route
-              path={'/wallets/withdrawal'}
-              render={() => {
-                return (
-                  <Withdraw
-                    currency={wallets[activeWallet]}
-                    onChange={handleChangeWithdraw}
-                    rid={rid}
-                    amount={amount}
-                    otp={otp}
-                    submitting={withdrawIsFetching}
-                    onClick={fetchSubmitWithdraw}
-                  />
-                );
-              }}
+              path="/wallets/withdrawal"
+              render={() => (
+                <Withdraw
+                  currency={wallets[activeWallet]}
+                  onChange={handleChangeWithdraw}
+                  rid={rid}
+                  amount={amount}
+                  otp={otp}
+                  submitting={withdrawIsFetching}
+                  onClick={fetchSubmitWithdraw}
+                />
+              )}
             />
           </Switch>
           <History history={this.filterHistory(history)}/>
