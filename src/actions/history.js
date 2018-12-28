@@ -5,14 +5,14 @@ import {
 } from '../constants/actions';
 
 
-export const fetchHistory = historyType => {
-  return { type: FETCH_HISTORY, payload: { historyType } };
+export const fetchHistory = id => {
+  return { type: FETCH_HISTORY, payload: { id } };
 };
 
-export const successHistory = (historyType, list) => {
-  return { type: SUCCESS_HISTORY, payload: { historyType, list } };
+export const successHistory = (deposits, withdraws) => {
+  return { type: SUCCESS_HISTORY, payload: { deposits, withdraws } };
 };
 
-export const failHistory = historyType => {
-  return { type: FAIL_HISTORY, payload: { historyType } };
+export const failHistory = () => {
+  return { type: FAIL_HISTORY  };
 };

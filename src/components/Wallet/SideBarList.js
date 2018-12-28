@@ -8,12 +8,61 @@ import Typography from '@material-ui/core/Typography/Typography';
 import List from '@material-ui/core/List/List';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core';
-import styles from './styles';
-import { toMinFixed } from '../../../utils/index';
+import { toMinFixed } from '../../utils/index';
+
+
+const sidebarListStyles = theme => ({
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+  },
+  listItem: {
+    margin: '8px 14px',
+    padding: '18px 20px',
+    borderRadius: '4px',
+    width: 'calc(100% - 28px)',
+    background: '#FFFFFF',
+    boxShadow: '0px 0px 2px rgba(0, 0, 0, 0.12)',
+    opacity: 0.6
+  },
+  textContainer: {
+    paddingLeft: 10
+  },
+  balanceText: {
+    textAlign: 'right',
+    fontWeight: 600
+  },
+  lockedIcon: {
+    verticalAlign: 'middle',
+    height: 14,
+    paddingRight: 5,
+    opacity: 0.7,
+    bottom: 1,
+    position: 'relative'
+  },
+  lockedText: {
+    textAlign: 'right'
+  },
+  titleText: {
+    fontWeight: 600
+  },
+  selectedListItem: {
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.25)',
+    opacity: 1
+  },
+  selectedText: {
+    // color: theme.palette.primary.main
+  },
+  selectedIcon: {
+    // filter: 'invert(1) brightness(0.5) sepia(1.2) hue-rotate(-45deg) saturate(6)'
+  },
+  avatarImg: {
+    width: 'auto'
+  }
+});
+
 
 const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
-  if (!wallets) return null;
-
   // TODO: Get rid of multiple "currency === activeWallet && "
   return (
     <List>
@@ -64,7 +113,7 @@ const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
                     color="textPrimary"
                   >
                     <img
-                      src={require('../../../assets/lock.svg')}
+                      src={require('../../assets/lock.svg')}
                       alt="locked"
                       className={classes.lockedIcon}
                     />{toMinFixed(data.locked, 5)}
@@ -80,4 +129,4 @@ const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
 };
 
 
-export default withStyles(styles)(SideBarList);
+export default withStyles(sidebarListStyles)(SideBarList);

@@ -17,10 +17,10 @@ function historyReducer(state = initState, action) {
       return { ...state, isFetching: true };
     }
     case SUCCESS_HISTORY: {
-      return { ...state, [action.payload.historyType]: action.payload.list, isFetching: false };
+      return { ...state, deposits: action.payload.deposits, withdraws: action.payload.withdraws, isFetching: false };
     }
     case FAIL_HISTORY: {
-      return { ...state, [action.payload.historyType]: [], isFetching: false };
+      return { ...state, deposits: [], withdraws: [], isFetching: false };
     }
     default: {
       return state;

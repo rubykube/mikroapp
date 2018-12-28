@@ -6,16 +6,20 @@ import { getHistory } from '../api/history';
 
 
 // Saga get history according to type
-export function* fetchHistory({ payload: { historyType } }) {
+export function* fetchHistory() {
+  const updateTime = list => list.forEach(item => {
+    item.created_at = moment.utc(item.created_at).format('DD MMM YYYY');
+  });
   try {
+
     const id = yield select(state => state.wallet.activeWallet);
-    const history = yield call(getHistory, historyType, id);
-    history.forEach(item => {
-      item.created_at = moment.utc(item.created_at).format('DD MMM YYYY');
-    });
-    yield put(actions.successHistory(historyType, history));
+    const [deposits, withdraws] = yield call(getHistory, id);
+
+    updateTime(deposits);
+    updateTime(withdraws);
+    yield put(actions.successHistory(deposits, withdraws));
   } catch (e) {
-    yield put(actions.failHistory(historyType));
+    yield put(actions.failHistory());
   }
 }
 

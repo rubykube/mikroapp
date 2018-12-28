@@ -1,7 +1,5 @@
 import React from 'react';
-import compose from 'recompose/compose';
 import { withStyles } from '@material-ui/core';
-import styles from './styles';
 import Grid from '@material-ui/core/Grid/Grid';
 import Typography from '@material-ui/core/Typography/Typography';
 import Button from '@material-ui/core/Button/Button';
@@ -9,7 +7,47 @@ import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
-const DepositView = ({ classes, address, children }) => {
+const styles = theme => ({
+  fieldset: {
+    border: '2px solid gray',
+    borderRadius: 5,
+    color: 'gray',
+    margin: '20px 0',
+    marginTop: 50,
+    width: 'calc(100% - 20px)',
+    wordBreak: 'break-word',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+    }
+  },
+  depositContainer: {
+    position: 'relative'
+  },
+  legend: {
+    fontSize: '9pt',
+    color: 'gray'
+  },
+  description: {
+    fontSize: '10pt',
+    color: '#666666'
+  },
+  btn: {
+    width: 'calc(100%)',
+    boxShadow: 'none',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%'
+    }
+  },
+  qrCode: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100% !important',
+      height: '100% !important'
+    }
+  }
+});
+
+
+const DepositView = ({ classes, address }) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} sm={3} className={classes.depositContainer}>
@@ -45,12 +83,9 @@ const DepositView = ({ classes, address, children }) => {
           {address && <QRCode fgColor="#333333" size={200} className={classes.qrCode} value={address} />}
         </div>
       </Grid>
-      <Grid item xs={12}>
-        <div style={{height: 20}} />
-        { children }
-      </Grid>
+      <Grid item xs={12}><div style={{height: 20}} /></Grid>
     </Grid>
   );
 };
 
-export default compose(withStyles(styles))(DepositView);
+export default withStyles(styles)(DepositView);
