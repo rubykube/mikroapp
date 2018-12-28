@@ -43,7 +43,7 @@ class App extends Component {
             />
             <Route
               path="/wallets"
-              render={() => <WalletsPage />}
+              component={WalletsPage}
             />
           </div>
         </div>

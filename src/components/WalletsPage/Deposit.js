@@ -54,4 +54,3 @@ const DepositView = ({ classes, address, children }) => {
 };
 
 export default compose(withStyles(styles))(DepositView);
-

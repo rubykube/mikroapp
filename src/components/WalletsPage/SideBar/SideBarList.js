@@ -31,6 +31,7 @@ const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
               alt={currency}
               src={data.icon_url}
               className={currency === activeWallet && classes.selectedIcon}
+              classes={{img: classes.avatarImg}}
             />
           </ListItemAvatar>
           <Grid container classes={{container: classes.textContainer}}>

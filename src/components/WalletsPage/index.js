@@ -18,7 +18,8 @@ import styles from './styles';
 const WalletView = ({ classes, location, activeWallet, wallets }) => {
   const activeWalletData = wallets[activeWallet] || { balance: 0, locked: 0 };
 
-  const activeWalletName = currencyData[activeWallet] && currencyData[activeWallet].name || 'Etherium'; // eslint-disable-line
+  // TODO: Get rid of default name "Ethereum" in preference of something like "not found" or error msg
+  const activeWalletName = currencyData[activeWallet] && currencyData[activeWallet].name || 'Ethereum'; // eslint-disable-line
 
   const tabClasses = {
     wrapper: classes.tabWrapper,

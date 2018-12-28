@@ -10,17 +10,22 @@ function* fetchWallet() {
   try {
     const [balances, currencies] = yield call(getWalletData);
 
-    const walletData = balances.reduce((prev, cur) => {
-      if (!currencies[cur.currency]) {
+    const mappedCurrencies = currencies.reduce((prev, currency) => ({
+      ...prev,
+      [currency.id]: currency
+    }), {});
+
+    const walletData = balances.reduce((prev, {currency, balance, locked}) => {
+      if (!mappedCurrencies[currency]) {
         return prev;
       }
       return {
         ...prev,
-        [cur.currency]: {
-          ...currencies[cur.currency],
-          withdraw_fee: parseFloat(currencies[cur.currency].withdraw_fee),
-          balance: +cur.balance,
-          locked: +cur.locked,
+        [currency]: {
+          ...mappedCurrencies[currency],
+          withdraw_fee: parseFloat(mappedCurrencies[currency].withdraw_fee),
+          balance: +balance,
+          locked: +locked,
           address: null,
         }
       };

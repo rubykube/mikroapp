@@ -51,6 +51,9 @@ const sidebarStyles = theme => ({
   },
   selectedIcon: {
     // filter: 'invert(1) brightness(0.5) sepia(1.2) hue-rotate(-45deg) saturate(6)'
+  },
+  avatarImg: {
+    width: 'auto'
   }
 });
 
