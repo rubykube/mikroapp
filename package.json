@@ -26,7 +26,7 @@
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test",
     "eject": "react-scripts eject",
     "docs": "NODE_ENV=development BABEL_ENV=development jsdoc -c ./.jsdoc.json",
     "eslint:fix": "eslint ./src/**/*.js --fix"

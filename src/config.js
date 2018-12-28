@@ -1,1 +1,1 @@
-export const host = window.env.API_URL || '';
+export const host = process.env.REACT_APP_API_URL || '';
