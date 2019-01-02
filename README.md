@@ -1,6 +1,6 @@
-[![Build Status](https://cloud.drone.io/api/badges/rubykube/mikroapp/status.svg)](https://cloud.drone.io/rubykube/mikroapp)
-
 # MikroApp
+
+[![Build Status](https://ci.microkube.com/api/badges/rubykube/mikroapp/status.svg)](https://ci.microkube.com/rubykube/mikroapp)
 
 Rubykube wallet frontend for peatio and barong
 
