@@ -61,67 +61,70 @@ const sidebarListStyles = theme => ({
 });
 
 const SideBarList = ({ classes, wallets, activeWallet, onClickWallet }) => {
-  // TODO: Get rid of multiple "currency === activeWallet && "
   return (
     <List>
-      {Object.entries(wallets).map(([currency, data]) => (
-        <ListItem
-          button
-          key={currency}
-          alignItems="flex-start"
-          onClick={onClickWallet(currency, data)}
-          selected={currency === activeWallet}
-          className={cx(classes.listItem, currency === activeWallet && classes.selectedListItem)}
-        >
-          <ListItemAvatar>
-            <Avatar
-              alt={currency}
-              src={data.icon_url}
-              className={currency === activeWallet && classes.selectedIcon}
-              classes={{img: classes.avatarImg}}
-            />
-          </ListItemAvatar>
-          <Grid container classes={{container: classes.textContainer}}>
-            <Grid item xs={6}>
-              <ListItemText
-                primary={currency.toUpperCase()}
-                classes={{primary: cx(
-                  classes.titleText,
-                  currency === activeWallet && classes.selectedText
-                )}}
-                secondary={
-                  <Typography
-                    component="span"
-                    className={currency === activeWallet && classes.selectedText}
-                    color="textPrimary"
-                  >
-                    {data.name || 'no name'}
-                  </Typography>
-                }
+      {Object.entries(wallets).map(([currency, data]) => {
+        const isActive = currency === activeWallet;
+
+        return (
+          <ListItem
+            button
+            key={currency}
+            alignItems="flex-start"
+            onClick={onClickWallet(currency, data)}
+            selected={isActive}
+            className={cx(classes.listItem, isActive && classes.selectedListItem)}
+          >
+            <ListItemAvatar>
+              <Avatar
+                alt={currency}
+                src={data.icon_url}
+                className={isActive && classes.selectedIcon}
+                classes={{img: classes.avatarImg}}
               />
+            </ListItemAvatar>
+            <Grid container classes={{container: classes.textContainer}}>
+              <Grid item xs={6}>
+                <ListItemText
+                  primary={currency.toUpperCase()}
+                  classes={{primary: cx(
+                    classes.titleText,
+                    isActive && classes.selectedText
+                  )}}
+                  secondary={
+                    <Typography
+                      component="span"
+                      className={isActive && classes.selectedText}
+                      color="textPrimary"
+                    >
+                      {data.name || 'no name'}
+                    </Typography>
+                  }
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <ListItemText
+                  primary={`${toMinFixed(data.balance, 5)} ${currency.toUpperCase()}`}
+                  classes={{primary: classes.balanceText}}
+                  secondary={
+                    <Typography
+                      component="span"
+                      className={classes.lockedText}
+                      color="textPrimary"
+                    >
+                      <img
+                        src={require('../../assets/lock.svg')}
+                        alt="locked"
+                        className={classes.lockedIcon}
+                      />{toMinFixed(data.locked, 5)}
+                    </Typography>
+                  }
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <ListItemText
-                primary={`${toMinFixed(data.balance, 5)} ${currency.toUpperCase()}`}
-                classes={{primary: classes.balanceText}}
-                secondary={
-                  <Typography
-                    component="span"
-                    className={classes.lockedText}
-                    color="textPrimary"
-                  >
-                    <img
-                      src={require('../../assets/lock.svg')}
-                      alt="locked"
-                      className={classes.lockedIcon}
-                    />{toMinFixed(data.locked, 5)}
-                  </Typography>
-                }
-              />
-            </Grid>
-          </Grid>
-        </ListItem>
-      ))}
+          </ListItem>
+        );
+      })}
     </List>
   );
 };
