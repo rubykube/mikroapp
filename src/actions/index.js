@@ -3,6 +3,7 @@ import * as accountActions from './account';
 import * as walletActions from './wallet';
 import * as historyActions from './history';
 import * as withdrawActions from './withdraw';
+import * as authActions from './auth';
 
 export default dispatch => ({
   actions: bindActionCreators({
@@ -10,5 +11,6 @@ export default dispatch => ({
     ...accountActions,
     ...walletActions,
     ...withdrawActions,
+    ...authActions,
   }, dispatch)
 });

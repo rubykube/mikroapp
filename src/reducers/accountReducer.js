@@ -1,4 +1,4 @@
-import { FETCH_ACCOUNT, SUCCESS_ACCOUNT, FAIL_ACCOUNT } from '../constants/actions';
+import { FETCH_ACCOUNT, SUCCESS_ACCOUNT, FAIL_ACCOUNT, SUCCESS_LOGOUT } from '../constants/actions';
 
 const initState = {
   data: {
@@ -12,20 +12,23 @@ const initState = {
     uid: '',
     updated_at: '',
   },
-  isFetching: false,
-  error: false,
+  isFetching: true,
+  error: false
 };
 
 function accountReducer(state = initState, action) {
   switch (action.type) {
     case FETCH_ACCOUNT: {
-      return { ...state, isFetching: true };
+      return { ...state };
     }
     case SUCCESS_ACCOUNT: {
       return { ...state, isFetching: false, data: action.payload.data };
     }
     case FAIL_ACCOUNT: {
       return { ...state, isFetching: false, error: true };
+    }
+    case SUCCESS_LOGOUT: {
+      return { ...state, data: initState.data };
     }
     default:
       return state;

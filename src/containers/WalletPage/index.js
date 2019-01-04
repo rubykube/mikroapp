@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { Route, Switch } from 'react-router-dom';
 import compose from 'recompose/compose';
@@ -8,6 +8,7 @@ import WalletLayout from '../../components/Wallet/WalletLayout';
 import Deposit from '../../components/Wallet/Deposit';
 import Withdraw from '../../components/Wallet/Withdraw';
 import History from '../../components/Wallet/History';
+import Layout from '../Layout';
 import { fetchWalletData, fetchWalletAddress, setActiveWallet } from '../../actions/wallet';
 import { fetchHistory } from '../../actions/history';
 import { handleChangeWithdraw, fetchSubmitWithdraw } from '../../actions/withdraw';
@@ -41,7 +42,7 @@ class WalletPage extends Component {
     if (!Object.keys(wallets).length) return null;
 
     return (
-      <Fragment>
+      <Layout>
         <SideBar
           wallets={wallets}
           activeWallet={activeWallet}
@@ -78,7 +79,7 @@ class WalletPage extends Component {
             />
           </Switch>
         </WalletLayout>
-      </Fragment>
+      </Layout>
     );
   }
 }

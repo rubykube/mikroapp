@@ -5,6 +5,7 @@ import walletReducer from './walletReducer';
 import accountReducer from './accountReducer';
 import historyReducer from './historyReducer';
 import withdrawReducer from './withdrawReducer';
+import authReducer from './authReducer';
 
 
 export default combineReducers({
@@ -12,5 +13,6 @@ export default combineReducers({
   account: accountReducer,
   history: historyReducer,
   withdraw: withdrawReducer,
+  auth: authReducer,
   router: connectRouter(history)
 });

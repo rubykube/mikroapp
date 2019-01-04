@@ -19,3 +19,10 @@ export const SUCCESS_SUBMIT_WITHDRAW = 'withdraw/SUCCESS_SUBMIT_WITHDRAW';
 export const FAIL_SUBMIT_WITHDRAW = 'withdraw/FAIL_SUBMIT_WITHDRAW';
 export const HANDLE_CHANGE_WITHDRAW = 'withdraw/HANDLE_CHANGE_WITHDRAW';
 export const CLEAR_WITHDRAW_FORM = 'withdraw/CLEAR_WITHDRAW_FORM';
+
+export const FETCH_LOGOUT = 'auth/FETCH_LOGOUT';
+export const SUCCESS_LOGOUT = 'auth/SUCCESS_LOGOUT';
+export const FAIL_LOGOUT = 'auth/FAIL_LOGOUT';
+export const FETCH_LOGIN = 'auth/FETCH_LOGIN';
+export const SUCCESS_LOGIN = 'auth/SUCCESS_LOGIN';
+export const FAIL_LOGIN = 'auth/FAIL_LOGIN';
