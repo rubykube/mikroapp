@@ -65,5 +65,4 @@ export default compose(
   withStyles(styles),
   connect(state => ({
     error: state.auth.errorLogin
-  }), actions))
-(LoginPage);
+  }), actions))(LoginPage);
