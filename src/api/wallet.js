@@ -1,18 +1,18 @@
-import axios from 'axios';
-import { host } from '../config';
+import axiosInstance from './requestBuilder';
+
 
 export const getWalletAddress = id => {
-  return axios.get(`${host}/api/v2/peatio/account/deposit_address/${id}`)
+  return axiosInstance.get(`/api/v2/peatio/account/deposit_address/${id}`)
     .then(response => response.data);
 };
 
 const getBalances = () => {
-  return axios.get(`${host}/api/v2/peatio/account/balances`)
+  return axiosInstance.get('/api/v2/peatio/account/balances')
     .then(response => response.data);
 };
 
 const getCurrencies = () => {
-  return axios.get(`${host}/api/v2/peatio/public/currencies`)
+  return axiosInstance.get('/api/v2/peatio/public/currencies')
     .then(response => response.data);
 };
 

@@ -21,9 +21,11 @@ if (process.env.NODE_ENV !== 'production') {
   middlewares = [...middlewares, logger];
 }
 
-export const store = createStore(
+const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(...middlewares))
 );
 
 sagaMiddleware.run(rootSaga);
+
+export default store;

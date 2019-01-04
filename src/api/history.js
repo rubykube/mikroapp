@@ -1,13 +1,13 @@
-import axios from 'axios';
-import { host } from '../config';
+import axiosInstance from './requestBuilder';
+
 
 export const getDepositHistory = id => {
-  return axios.get(`${host}/api/v2/peatio/account/deposits?currency=${id}`)
+  return axiosInstance.get(`/api/v2/peatio/account/deposits?currency=${id}`)
     .then(response => response.data);
 };
 
 export const getWithdrawHistory = id => {
-  return axios.get(`${host}/api/v2/peatio/account/withdraws?currency=${id}`)
+  return axiosInstance.get(`/api/v2/peatio/account/withdraws?currency=${id}`)
     .then(response => response.data);
 };
 

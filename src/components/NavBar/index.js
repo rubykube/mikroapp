@@ -18,40 +18,24 @@ import BackIcon from '@material-ui/icons/ArrowBack';
 import PersonIcon from '@material-ui/icons/Person';
 import Hidden from '@material-ui/core/Hidden';
 import styles from './styles';
-import { host } from '../../config';
-import { currencyData, getMatch } from '../../utils';
+import { getMatch } from '../../utils';
+import actions from '../../actions';
 
 class NavBar extends Component {
   state = {
     anchorEl: null
   };
 
-  handleMenuClick = event => {
-    this.setState({ menuAnchorEl: event.currentTarget });
-  };
+  handleMenuClick = event => this.setState({ menuAnchorEl: event.currentTarget });
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+  handleClick = event => this.setState({ anchorEl: event.currentTarget });
 
-  handleClose = () => {
-    this.setState({ anchorEl: null, menuAnchorEl: null });
-  };
+  handleClose = () => this.setState({ anchorEl: null, menuAnchorEl: null });
 
   logoutUser = () => {
-    fetch(`${host}/api/v2/barong/identity/sessions`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-      }
-    }).then(data => {
-      if (data.status === 200) {
-        this.props.history.push('/');
-      }
-    }).catch(err => {
-      console.error(err);
-    });
-  }
+    this.props.actions.fetchLogout();
+    this.setState({ anchorEl: null });
+  };
 
   goBack = () => {
     const {history, location} = this.props;
@@ -66,8 +50,8 @@ class NavBar extends Component {
   }
 
   render() {
-    const {classes, location, user, activeWallet} = this.props;
-    const {anchorEl, menuAnchorEl} = this.state;
+    const {classes, location, wallets, activeWallet } = this.props;
+    const { anchorEl, menuAnchorEl } = this.state;
 
     const menuButton = (
       <IconButton
@@ -81,24 +65,18 @@ class NavBar extends Component {
       </IconButton>
     );
 
-    // const activeWalletName = currencyData[activeWallet] && currencyData[activeWallet].name || 'Etherium';
-
     return (
       <div>
         <AppBar className={classes.appBar} position="fixed">
           <Toolbar>
-            {/* <img src={require('../assets/logo.png')} height={50} /> */}
-
             <Hidden smUp implementation="css">
               {
-                (location.pathname.indexOf('/wallet') >= 0) && activeWallet ? (
-                  <IconButton
-                    color="inherit"
-                    onClick={this.goBack}
-                  >
-                    <BackIcon />
-                  </IconButton>
-                ) : menuButton
+                (location.pathname.indexOf('/wallet') >= 0) && activeWallet ?
+                  (
+                    <IconButton color="inherit" onClick={this.goBack}>
+                      <BackIcon />
+                    </IconButton>
+                  ) : menuButton
               }
             </Hidden>
             <Hidden xsDown implementation="css">
@@ -108,35 +86,29 @@ class NavBar extends Component {
               <Typography variant="h6" color="inherit">
                 {getMatch({
                   '/wallets': activeWallet ? (
-                    currencyData && currencyData[activeWallet] && currencyData[activeWallet].name || 'Etherium' // eslint-disable-line
+                    (wallets[activeWallet] && wallets[activeWallet].name) || 'Ethereum'
                   ) : 'Wallets'
                 }, location.pathname, true)}
               </Typography>
             </Hidden>
             <div className={classes.grow} />
             <Hidden xsDown implementation="js">
-              {
-                user.email ? (
-                  <>
-                    <Tabs value={location.pathname === '/trade' ? 0 : (
-                      location.pathname.indexOf('/wallets') >= 0 ? 1 : undefined
-                    )} classes={{
-                      flexContainer: classes.tabsFlexContainer
-                    }}>
-                      <Tab label="TRADE" component={Link} to="/trade" />
-                      <Tab label="WALLETS" component={Link} to="/wallets" />
-                    </Tabs>
-                    <Avatar
-                      aria-owns={anchorEl ? 'simple-menu' : undefined}
-                      aria-haspopup="true"
-                      onClick={this.handleClick}
-                      classes={{root: classes.avatar}}
-                    >
-                      <PersonIcon />
-                    </Avatar>
-                  </>
-                ) : null
-              }
+              <Tabs value={location.pathname === '/trade' ? 0 : (
+                location.pathname.indexOf('/wallets') >= 0 ? 1 : undefined
+              )} classes={{
+                flexContainer: classes.tabsFlexContainer
+              }}>
+                <Tab label="TRADE" component={Link} to="/trade" />
+                <Tab label="WALLETS" component={Link} to="/wallets" />
+              </Tabs>
+              <Avatar
+                aria-owns={anchorEl ? 'simple-menu' : undefined}
+                aria-haspopup="true"
+                onClick={this.handleClick}
+                classes={{root: classes.avatar}}
+              >
+                <PersonIcon />
+              </Avatar>
             </Hidden>
           </Toolbar>
           <Menu
@@ -166,8 +138,7 @@ export default compose(
   withRouter,
   withStyles(styles),
   connect(state => ({
-    user: state.account.data,
-    // balances: state.balances.list,
+    wallets: state.wallet.list,
     activeWallet: state.wallet.activeWallet
-  })),
+  }), actions),
 )(NavBar);
