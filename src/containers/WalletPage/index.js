@@ -86,7 +86,6 @@ class WalletPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    account: state.account.data,
     wallets: state.wallet.list,
     activeWallet: state.wallet.activeWallet,
     depositHistory: state.history.deposits,
