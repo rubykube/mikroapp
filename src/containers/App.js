@@ -26,7 +26,7 @@ const muiTheme = createMuiTheme({
 
 class App extends Component {
   componentDidMount() {
-    this.props.actions.fetchAccount();
+    this.props.actions.fetchUser();
   }
 
   render() {
@@ -47,6 +47,6 @@ class App extends Component {
 
 
 export default connect(state => ({
-  user: state.account.data,
-  isFetching: state.account.isFetching
+  user: state.user.data,
+  isFetching: state.user.isFetching
 }), actions)(App);

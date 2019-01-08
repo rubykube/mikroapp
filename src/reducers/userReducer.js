@@ -1,4 +1,4 @@
-import { FETCH_ACCOUNT, SUCCESS_ACCOUNT, FAIL_ACCOUNT, SUCCESS_LOGOUT } from '../constants/actions';
+import { FETCH_USER, SUCCESS_USER, FAIL_USER, RESET_USER } from '../constants/actions';
 
 const initState = {
   data: {
@@ -16,18 +16,18 @@ const initState = {
   error: false
 };
 
-function accountReducer(state = initState, action) {
+function userReducer(state = initState, action) {
   switch (action.type) {
-    case FETCH_ACCOUNT: {
-      return { ...state };
+    case FETCH_USER: {
+      return { ...state, isFetching: true };
     }
-    case SUCCESS_ACCOUNT: {
+    case SUCCESS_USER: {
       return { ...state, isFetching: false, data: action.payload.data };
     }
-    case FAIL_ACCOUNT: {
+    case FAIL_USER: {
       return { ...state, isFetching: false, error: true };
     }
-    case SUCCESS_LOGOUT: {
+    case RESET_USER: {
       return { ...state, data: initState.data };
     }
     default:
@@ -35,4 +35,4 @@ function accountReducer(state = initState, action) {
   }
 }
 
-export default accountReducer;
+export default userReducer;

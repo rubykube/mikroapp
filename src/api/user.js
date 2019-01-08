@@ -1,7 +1,7 @@
 import axiosInstance from './requestBuilder';
 
 
-export const getAccount = () => {
+export const getUser = () => {
   return axiosInstance.get('/api/v2/barong/resource/users/me')
-    .then(response => response.data);
+    .then(response => response.data)
 };
