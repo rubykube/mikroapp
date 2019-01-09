@@ -22,7 +22,7 @@ function* fetchSubmitWithdraw() {
     yield call(delay, 1000);
     yield put(actions.clearWithdrawForm());
   } catch (e) {
-    yield put(actions.failSubmitWithdraw('Some Error'));//TODO add err handling
+    yield put(actions.failSubmitWithdraw(e.message));
   }
 }
 

@@ -47,7 +47,7 @@ function* setActiveWallet({ payload: { id } }) {
     yield put(actions.fetchWalletAddress(id));
   }
 
-  yield put(fetchHistory('deposits'));//deposits fetch first by default
+  yield put(fetchHistory('deposits')); // deposits fetch first by default
 }
 
 export function* setActiveWalletSaga() {
