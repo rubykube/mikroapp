@@ -9,8 +9,7 @@ export const logoutUser = () => {
 export const loginUser = (email, password, otp_code='', recaptcha_response='') => {
   return axiosInstance.post(
       '/api/v2/barong/identity/sessions',
-      { email, password, otp_code, recaptcha_response },
-      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      { email, password, otp_code, recaptcha_response }
     )
     .then(response => response.data)
 };
