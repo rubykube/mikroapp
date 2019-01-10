@@ -21,6 +21,7 @@ steps:
     - git remote add authenticated-origin https://kite-bot:$GITHUB_API_KEY@github.com/${DRONE_REPO}
     - git fetch
     - yarn config set version-git-message "[ci Skip] Bump %s"
+    - yarn config set version-tag-prefix ""
     - yarn version --patch -y
     - git push authenticated-origin master
     - git push --tags authenticated-origin
