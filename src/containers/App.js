@@ -30,9 +30,9 @@ class App extends Component {
 
   render() {
     const { isFetching, user } = this.props;
-    var isAuthenticated = false;
+    let isAuthenticated = false;
     if(user) {
-      isAuthenticated = (user.email && user.state === 'active') ? true : false;
+      isAuthenticated = user.email && user.state === 'active';
     }
 
     return (
