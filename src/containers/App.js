@@ -8,7 +8,6 @@ import LoginPage from './LoginPage';
 import actions from "../actions";
 import PrivateRoute from '../components/PrivateRoute';
 
-
 const muiTheme = createMuiTheme({
   palette: {
     primary: {
@@ -31,7 +30,11 @@ class App extends Component {
 
   render() {
     const { isFetching, user } = this.props;
-    const isAuthenticated = user.email && user.state === 'active';
+    let isAuthenticated = false;
+    if(user) {
+      isAuthenticated = user.email && user.state === 'active';
+    }
+
     return (
       <MuiThemeProvider theme={muiTheme}>
         <Switch>
