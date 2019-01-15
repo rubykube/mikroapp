@@ -5,6 +5,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from "@material-ui/core/Typography/Typography";
+import TextField from '@material-ui/core/TextField/TextField';
 import { Link } from 'react-router-dom';
 
 const styles = theme => ({
@@ -17,26 +18,26 @@ const styles = theme => ({
   },
 });
 
-class LoginForm extends Component {
+class SignupForm extends Component {
   onChange = field => e => this.props.onChange(field, e.target.value.trim());
 
   render () {
-    const { classes, email, password, otp_code, onSubmit, error } = this.props;
+    const { classes, email, password, confirmpassword, onSubmit, error } = this.props;
 
     return (
-      <form className={classes.form} onSubmit={onSubmit}>
+      <form className={classes.form} onSubmit={onSubmit} autoComplete="off">
         <FormControl margin="normal" required fullWidth>
           <InputLabel htmlFor="email">Email Address</InputLabel>
           <Input
             id="email"
-            type="email"
             value={email}
+            type="email"
             onChange={this.onChange('email')}
             autoFocus
           />
         </FormControl>
         <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel htmlFor="password">Create Password</InputLabel>
           <Input
             id="password"
             type="password"
@@ -44,13 +45,13 @@ class LoginForm extends Component {
             onChange={this.onChange('password')}
           />
         </FormControl>
-        <FormControl margin="normal" fullWidth>
-          <InputLabel htmlFor="otp_code">Authenticator Code (If Enabled)</InputLabel>
+        <FormControl margin="normal" required fullWidth>
+          <InputLabel htmlFor="password">Confirm Password</InputLabel>
           <Input
-            id="otp_code"
-            type="text"
-            value={otp_code}
-            onChange={this.onChange('otp_code')}
+            id="confirmpassword"
+            type="password"
+            value={confirmpassword}
+            onChange={this.onChange('confirmpassword')}
           />
         </FormControl>
         <Typography variant="h6" style={{padding: 10, color: 'red', fontSize: '12px', textAlign: 'center'}}>
@@ -63,14 +64,14 @@ class LoginForm extends Component {
           color="primary"
           className={classes.submit}
         >
-          Sign in
+          Sign Up
         </Button>
         <FormControl margin="normal" fullWidth>
-          <Link to="/signup">New User? Signup Now</Link>
+          <Link to="/login"> Already a User? Login Now</Link>
         </FormControl>
       </form>
     );
   }
 }
 
-export default withStyles(styles)(LoginForm);
+export default withStyles(styles)(SignupForm);

@@ -65,7 +65,7 @@ class Withdraw extends Component {
             value={amount}
           />
           <TextField
-            label="OTP code"
+            label="Authenticator code"
             className={classes.withdrawalAmount}
             margin="normal"
             variant="outlined"

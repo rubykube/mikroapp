@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import LoginForm from '../../components/LoginForm';
+import SignupForm from '../../components/SignupForm';
 import actions from "../../actions";
 
 const styles = theme => ({
@@ -29,29 +29,28 @@ const styles = theme => ({
   }
 });
 
-class LoginPage extends Component {
-  state = { email: '', password: '', otp_code: '' };
+class SignupPage extends Component {
+  state = { email: '', password: '' };
 
   onSubmit = e => {
     e.preventDefault();
-    this.props.actions.fetchLogin(this.state.email, this.state.password, this.state.otp_code);
+    this.props.actions.fetchLogin(this.state.email, this.state.password);
   };
 
   handleChangeField = (field, value) => this.setState({ [field]: value });
 
   render () {
     const { classes, error } = this.props;
-    const { email, password, otp_code='' } = this.state;
+    const { email, password } = this.state;
 
     return (
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h5">Sign in</Typography>
-          <LoginForm
+          <Typography component="h1" variant="h5">Sign up</Typography>
+          <SignupForm
             email={email}
             password={password}
-            otp_code={otp_code}
             onChange={this.handleChangeField}
             onSubmit={this.onSubmit}
             error={error}
@@ -65,5 +64,5 @@ class LoginPage extends Component {
 export default compose(
   withStyles(styles),
   connect(state => ({
-    error: state.auth.errorLogin
-  }), actions))(LoginPage);
+    error: state.auth.errorSignup
+  }), actions))(SignupPage);

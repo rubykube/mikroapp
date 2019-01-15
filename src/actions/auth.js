@@ -3,6 +3,8 @@ import {
   FAIL_LOGOUT,
   FETCH_LOGIN,
   FAIL_LOGIN,
+  FETCH_SIGNUP,
+  FAIL_SIGNUP,
 } from '../constants/actions';
 
 
@@ -20,4 +22,12 @@ export const fetchLogin = (email, password) => {
 
 export const failLogin = message => {
   return { type: FAIL_LOGIN, payload: { message } };
+};
+
+export const fetchsignup = (email, password) => {
+  return { type: FETCH_SIGNUP, payload: { email, password } };
+};
+
+export const failsignup = message => {
+  return { type: FAIL_SIGNUP, payload: { message } };
 };
