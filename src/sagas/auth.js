@@ -3,8 +3,7 @@ import * as actions from '../actions/auth';
 import * as userActions from '../actions/user';
 import * as types from '../constants/actions';
 import { push } from 'connected-react-router';
-import { logoutUser, loginUser } from '../api/auth';
-import { signupUser } from '../api/auth';
+import { logoutUser, loginUser, signupUser } from '../api/auth';
 import { fetchUser } from './user';
 
 
@@ -29,7 +28,7 @@ export function* fetchLogin({ payload: { email, password } }) {
     yield call(fetchUser);
     yield put(push('/wallets'));
   } catch (e) {
-    yield put(actions.failLogin('Oops! Error occurs, please try again later.'));
+    yield put(actions.failLogin('Oops! Error occurred on Sign In, please try again later.'));
   }
 }
 
@@ -43,7 +42,7 @@ export function* fetchSignup({ payload: { email, password } }) {
     yield call(fetchUser);
     yield put(push('/wallets'));
   } catch (e) {
-    yield put(actions.failLogin('Oops! Error occurs, please try again later.'));
+    yield put(actions.failLogin('Oops! Error occurred on Sign Up, please try again later.'));
   }
 }
 
