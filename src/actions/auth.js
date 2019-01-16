@@ -24,10 +24,10 @@ export const failLogin = message => {
   return { type: FAIL_LOGIN, payload: { message } };
 };
 
-export const fetchsignup = (email, password) => {
+export const fetchSignup = (email, password) => {
   return { type: FETCH_SIGNUP, payload: { email, password } };
 };
 
-export const failsignup = message => {
+export const failSignup = message => {
   return { type: FAIL_SIGNUP, payload: { message } };
 };
