@@ -34,7 +34,7 @@ class SignupPage extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    this.props.actions.fetchSogin(this.state.email, this.state.password);
+    this.props.actions.fetchSignup(this.state.email, this.state.password);
   };
 
   handleChangeField = (field, value) => this.setState({ [field]: value });
