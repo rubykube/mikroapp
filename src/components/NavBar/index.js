@@ -119,7 +119,7 @@ class NavBar extends Component {
           >
             <Link to="/trade"><MenuItem>TRADE</MenuItem></Link>
             <Link to="/wallets"><MenuItem>WALLETS</MenuItem></Link>
-            <Link onCLick={this.logoutUser} to="/"><MenuItem>LOGOUT</MenuItem></Link>
+            <MenuItem onClick={this.logoutUser}>LOGOUT</MenuItem>
           </Menu>
           <Menu
             id="simple-menu"
