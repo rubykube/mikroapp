@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import WalletPage from './WalletPage';
 import TradePage from './TradePage';
@@ -49,7 +49,7 @@ class App extends Component {
 }
 
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
   user: state.user.data,
   isFetching: state.user.isFetching
-}), actions)(App);
+}), actions)(App));
