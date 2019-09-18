@@ -1,6 +1,6 @@
 # MikroApp
 
-[![Build Status](https://ci.microkube.com/api/badges/rubykube/mikroapp/status.svg)](https://ci.microkube.com/rubykube/mikroapp)
+**Please note, that this project is deprecated and moved to https://github.com/openware/opendax**
 
 Rubykube wallet frontend for peatio and barong
 
